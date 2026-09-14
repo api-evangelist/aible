@@ -1,0 +1,37 @@
+generated: '2026-09-14'
+method: searched
+source: registry.npmjs.org, pypi.org, plus the Aible site and API route index
+name: Aible client packages
+description: >-
+  No first-party Aible SDK or client library was found in any public package registry, on any Aible
+  web page, or in the published API route index. Aible ships no GitHub organization either — a GitHub
+  user/org search for "aible" returns unrelated accounts, none of them Aible Inc. Integration is
+  either direct HTTP against https://api.iamaible.com, or through a third party's connector.
+official_package_count: 0
+packages: []
+registries_searched:
+- {registry: npm, endpoint: 'https://registry.npmjs.org/-/v1/search?text=aible', result: 'one unrelated package named "aible", version 0.0.0, published 2025-06-02, no description and no homepage — an unpublished name placeholder, not an Aible client'}
+- {registry: pypi, endpoint: 'https://pypi.org/pypi/{aible,aible-sdk,aible-api,pyaible}/json', result: 'HTTP 404 for every candidate'}
+- {registry: github, endpoint: 'https://api.github.com/search/users?q=aible', result: 'no Aible Inc. organization; all matches are unrelated accounts'}
+- {registry: postman, endpoint: 'https://www.postman.com/_api/ws/proxy (search-all)', result: 'no first-party Aible workspace or collection'}
+rejected_candidates:
+- name: aible
+  registry: npm
+  version: 0.0.0
+  published: '2025-06-02'
+  official: false
+  reason: >-
+    Empty placeholder package with no description, no repository and no homepage. Nothing ties it to
+    Aible Inc., so it is recorded as a rejected candidate rather than as an Aible SDK.
+third_party_connectors:
+- name: Aible AI connector for Boomi
+  vendor: Boomi
+  official: false
+  url: https://help.boomi.com/bundle/connectors/page/int-Aible_connector.html
+  note: >-
+    A Boomi-authored connector that wraps "the Aible CSV scoring REST API". Authored and maintained
+    by Boomi, not Aible, so it is not counted as a first-party SDK.
+gaps:
+- No first-party SDK in any language.
+- No public GitHub organization.
+- No published Postman collection or workspace.

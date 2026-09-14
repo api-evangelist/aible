@@ -1,0 +1,66 @@
+generated: '2026-09-14'
+method: probed
+source: live probes of every Aible host
+name: Aible well-known document probe
+description: >-
+  Aible serves no /.well-known documents. Probed across four hosts on 2026-09-14. The two aible.com
+  hosts return an honest HTML 404 for every path. The two iamaible.com application hosts return
+  HTTP 200 with the single-page-app shell for EVERY path including nonsense ones — that is a
+  catch-all route, not a document, and is recorded as a miss. No WellKnown or SecurityTxt pointer is
+  emitted, because nothing is actually served.
+hosts:
+- host: www.aible.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404, file: null}
+  - {path: /.well-known/openid-configuration, status: 404, file: null}
+  - {path: /.well-known/oauth-authorization-server, status: 404, file: null}
+  - {path: /.well-known/api-catalog, status: 404, file: null}
+  - {path: /.well-known/ai-plugin.json, status: 404, file: null}
+  - {path: /.well-known/agent-card.json, status: 404, file: null}
+  - {path: /.well-known/agent.json, status: 404, file: null}
+  - {path: /llms.txt, status: 404, file: null}
+  - {path: /robots.txt, status: 200, file: null, note: 'served (text/plain), HubSpot-generated; not a well-known document'}
+- host: aible.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404, file: null}
+  - {path: /.well-known/openid-configuration, status: 404, file: null}
+  - {path: /.well-known/oauth-authorization-server, status: 404, file: null}
+  - {path: /.well-known/api-catalog, status: 404, file: null}
+  - {path: /.well-known/ai-plugin.json, status: 404, file: null}
+  - {path: /.well-known/agent-card.json, status: 404, file: null}
+  - {path: /.well-known/agent.json, status: 404, file: null}
+  - {path: /llms.txt, status: 404, file: null}
+- host: api.iamaible.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404, file: null}
+  - {path: /.well-known/openid-configuration, status: 404, file: null}
+  - {path: /.well-known/oauth-authorization-server, status: 404, file: null}
+  - {path: /.well-known/oauth-protected-resource, status: 404, file: null}
+  - {path: /.well-known/api-catalog, status: 404, file: null}
+  - {path: /.well-known/ai-plugin.json, status: 404, file: null}
+  - {path: /.well-known/agent-card.json, status: 404, file: null}
+  - {path: /.well-known/agent.json, status: 404, file: null}
+  - {path: /llms.txt, status: 404, file: null}
+  note: >-
+    This host returns a clean text/plain 404 for unknown paths, so these are true negatives from a
+    real router rather than a catch-all.
+- host: www.iamaible.com
+  documents:
+  - {path: /.well-known/security.txt, status: 200, file: null, note: 'SPA shell (text/html, <title>Aible</title>) — NOT a document'}
+  - {path: /.well-known/openid-configuration, status: 200, file: null, note: 'SPA shell — NOT a document'}
+  - {path: /.well-known/oauth-authorization-server, status: 200, file: null, note: 'SPA shell — NOT a document'}
+  - {path: /.well-known/api-catalog, status: 200, file: null, note: 'SPA shell — NOT a document'}
+  - {path: /.well-known/ai-plugin.json, status: 200, file: null, note: 'SPA shell — NOT a document'}
+  - {path: /.well-known/agent-card.json, status: 200, file: null, note: 'SPA shell — NOT a document; does not parse as JSON'}
+  - {path: /.well-known/agent.json, status: 200, file: null, note: 'SPA shell — NOT a document; does not parse as JSON'}
+  - {path: /llms.txt, status: 200, file: null, note: 'SPA shell — NOT a document'}
+  - {path: /robots.txt, status: 200, file: null, note: 'SPA shell — NOT a document. The app sets <meta name="robots" content="noindex,nofollow"> instead.'}
+  note: >-
+    Every path on this host returns the same 200 HTML application shell, including /openapi.json,
+    /swagger.json, /api-docs and /docs. Treated as a catch-all false positive throughout.
+summary:
+  hosts_probed: 4
+  documents_probed: 35
+  real_documents_found: 0
+  soft_200_shells: 9
+  pointer_emitted: false

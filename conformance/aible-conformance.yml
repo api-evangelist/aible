@@ -1,0 +1,109 @@
+generated: '2026-09-14'
+method: derived
+source: reference/aible-api-routes.yml (parsed from https://api.iamaible.com/) + live probes
+name: Aible standards conformance
+description: >-
+  Which cross-cutting and domain standards the Aible API actually conforms to, judged from the
+  contract surface Aible publishes and from live probes — not from marketing claims. Aible is an
+  enterprise AI/analytics platform; its sector has no mandatory API interchange standard, and no
+  standard is invented here to fill the slot. No published certification or compliance program was
+  found, so no Compliance pointer is emitted.
+conformance:
+- id: oauth2
+  conforms: false
+  role: client-only
+  evidence: https://api.iamaible.com/
+  note: >-
+    Aible consumes OAuth 2.0 as a relying party — GET /v1/login/oauth2-reply handles an
+    authorization-code reply — but it is not an OAuth 2.0 authorization server and issues no
+    OAuth access tokens to API callers. API auth is an opaque bearer session token.
+- id: oidc
+  conforms: false
+  evidence: 'https://api.iamaible.com/.well-known/openid-configuration (404); https://www.aible.com/.well-known/openid-configuration (404)'
+  note: No OpenID Provider metadata is served on any Aible host.
+- id: saml2
+  conforms: true
+  evidence: >-
+    https://api.iamaible.com/ — POST /v1/login/saml-reply is documented as "Handle a SAML ACS reply";
+    POST /v1/login/by/<tenant_id:int>/via/<key:str> is a service-provider-initiated login; POST
+    /v1/logout/saml-reply uses the session NameID to initiate SAML single logout. Per-tenant IdP
+    registrations are managed at /v1/foreign-authentications.
+  note: Aible is a SAML 2.0 Service Provider with per-tenant federation, managed over the API.
+- id: rfc9457
+  conforms: false
+  evidence: 'https://api.iamaible.com/v1/me — 403, content-type application/json, body {"type":"Invalid Token","message":"...","key":null}'
+  note: Errors use a bespoke three-key envelope, not application/problem+json.
+- id: rfc8594
+  conforms: false
+  evidence: https://www.aible.com/aible-terms-of-use
+  note: No Sunset or Deprecation header commitment and no deprecation policy is published.
+- id: idempotency
+  conforms: false
+  evidence: https://api.iamaible.com/
+  note: >-
+    No Idempotency-Key header or replay-protection mechanism appears anywhere in the published
+    surface, across 229 mutating routes.
+- id: pagination
+  conforms: false
+  evidence: https://api.iamaible.com/
+  note: >-
+    List routes exist but no pagination parameters or envelope fields are published, so no
+    pagination convention can be asserted either way.
+- id: json:api
+  conforms: false
+  evidence: https://api.iamaible.com/
+  note: Responses are plain JSON; no JSON:API media type or document structure is declared.
+- id: scim
+  conforms: false
+  evidence: https://api.iamaible.com/
+  note: >-
+    Aible provisions users over its own routes (/v1/login/create_bulk, /v1/user_aliases,
+    /v1/tenant/<id>/users) rather than SCIM. No urn:ietf:params:scim:schemas URN appears anywhere.
+    This is the one absent standard with an obvious market: an enterprise multi-tenant platform with
+    SAML SSO and bulk user creation is exactly the profile SCIM 2.0 exists for.
+- id: odata
+  conforms: false
+  evidence: https://api.iamaible.com/
+  note: No $metadata surface and no OData query options.
+- id: rest
+  conforms: true
+  evidence: https://api.iamaible.com/
+  note: >-
+    Resource-oriented HTTP with a /v1 path prefix, JSON bodies and conventional method semantics
+    across 394 published routes — but with no machine-readable description of any kind.
+- id: openapi
+  conforms: false
+  evidence: >-
+    https://api.iamaible.com/openapi.json (404), /openapi.yaml (404), /swagger.json (404),
+    /v1/openapi.json (404), /api-docs (404), /docs (404), /redoc (404)
+  note: >-
+    The contract is a human-readable HTML route index at the API root. It is complete and
+    first-party, but it is not machine-readable.
+- id: asyncapi
+  conforms: false
+  evidence: https://api.iamaible.com/
+  note: >-
+    Two routes are flagged "websocket capable" in the published index and a Slack callback exists at
+    POST /v1/response/<action:str>, but no event catalog, webhook catalog or AsyncAPI document is
+    published. Not applicable rather than failed.
+- id: graphql
+  conforms: false
+  evidence: 'https://api.iamaible.com/graphql (404)'
+domain_standards:
+  sector: enterprise AI / analytics platform
+  applicable_standard_found: false
+  probed_for: [scim, odata, openrtb, activitypub, oai-pmh, lti, hl7v2, x12, iso-20022]
+  note: >-
+    REWARD-ONLY dimension. Aible's market has no established API interchange standard for
+    AutoML/agent platforms, so nothing is scored against it. SCIM 2.0 is recorded above as a
+    genuinely applicable identity standard Aible does not implement.
+compliance_program:
+  published: false
+  certifications: []
+  evidence:
+  - {url: 'https://www.aible.com/security/', http_status: 200, note: 'Security page names no certification, framework or audit — SOC 2, ISO 27001, HIPAA, GDPR, FedRAMP and PCI are all absent. Its only claim is architectural: "Aible moves the code to the data in your cloud accounts (AWS / Azure / GCP) and does not extract data".'}
+  - {url: 'https://www.aible.com/trust', http_status: 404, note: 'no trust center'}
+  note: >-
+    No Compliance or TrustCenter pointer is emitted, because no certification is published. The
+    architectural claim (data never leaves the customer's cloud account) is a real and material
+    security posture, but it is not a third-party attestation.

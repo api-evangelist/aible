@@ -1,0 +1,42 @@
+generated: '2026-09-14'
+method: searched
+source: https://www.aible.com/ + https://api.iamaible.com/ + web search
+name: Aible MCP server
+description: >-
+  No Model Context Protocol server — hosted or local — was found for Aible. This is a notable absence
+  rather than a routine one: Aible's entire market position is "AI agents for business users at
+  enterprise scale", and its API carries a full agent-adjacent surface (content generation, chat
+  tones, language-model artifacts, fine-tuning executions, AI service connections). Aible builds
+  agents FOR customers inside its own platform; it does not expose itself as a tool surface to
+  anyone else's agent.
+status: none
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: searched
+tools: []
+x-evidence:
+  fetched: '2026-09-14'
+  probes:
+  - {url: 'https://api.iamaible.com/', http_status: 200, note: '394 published routes, none of them an MCP transport endpoint'}
+  - {url: 'https://api.iamaible.com/.well-known/oauth-protected-resource', http_status: 404}
+  - {url: 'https://api.iamaible.com/.well-known/oauth-authorization-server', http_status: 404}
+  - {url: 'https://www.aible.com/.well-known/ai-plugin.json', http_status: 404}
+  searches:
+  - {query: 'Aible MCP server Model Context Protocol aible.com agents', result: 'no Aible MCP server; results were generic MCP explainers'}
+  registries:
+  - {registry: npm, query: aible, result: 'no @aible scope and no aible MCP package'}
+  - {registry: pypi, query: 'aible / aible-sdk / aible-api', result: 'HTTP 404'}
+candidate_derivation:
+  attempted: false
+  reason: >-
+    A candidate tool list is derived from OpenAPI operations. Aible publishes no OpenAPI, and its
+    route index carries no request/response schemas for the great majority of routes, so there is no
+    inputSchema to derive from. A tool list with invented schemas would be worse than none.
+gaps:
+- No hosted MCP endpoint.
+- No stdio MCP package.
+- No agent card (see the well-known probe; nothing is served on any Aible host).

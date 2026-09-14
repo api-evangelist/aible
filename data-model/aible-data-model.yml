@@ -1,0 +1,239 @@
+generated: '2026-09-14'
+method: derived
+source: reference/aible-api-routes.yml (parsed from https://api.iamaible.com/)
+name: Aible API data model
+description: >-
+  Entity-relationship graph derived from the Aible API route index. Aible publishes no OpenAPI and no
+  object reference, so this graph is built from two things the route index does state verbatim: the
+  named return type of each route (e.g. "⭢ ProjectSegment") and the containment expressed by the path
+  hierarchy (e.g. /v1/projects/<project_id>/segments). Every entity and every relationship below maps
+  to a published route; no field lists, no property types and no id formats are asserted, because
+  Aible publishes none.
+x-evidence:
+  url: https://api.iamaible.com/
+  http_status: 200
+  fetched: '2026-09-14'
+
+id_convention:
+  style: integer surrogate keys
+  evidence: >-
+    Path converters are typed in the published index — <project_id:int>, <job_id:int>,
+    <deployment_id:int>. Only tags (<tag_name:str>), upload handles (<upload_id:string>), intern
+    models (<model_name>) and auth tokens (<token:str>) are string-keyed.
+  prefixed_ids: false
+
+domains:
+- name: Tenancy and identity
+  entities: [Tenant, UserSession, TenantSession, UserAlias, ForeignAuthentication, Invite, Licensing]
+- name: Cloud estate
+  entities: [Account, PresignedURL, Resource]
+- name: Workspace and content organisation
+  entities: [Folder, FolderRole, Tag, Tagged, Comment, Rating]
+- name: Data and training
+  entities: [TrainingData, Training, RulefitMappings, SchemaMonitor, ModelTrainingJob, Run, Model]
+- name: Decision projects
+  entities: [Project, ProjectRole, ProjectSegment, ProjectSegmentRole, ProjectScenario, ProjectSegmentAssumption, ProjectTask, ProjectMonitor, ProjectSegmentMonitor, ProjectSegmentUserMonitor, ProjectSegmentJob, Segment]
+- name: Deployment and inference
+  entities: [Deployment, Invocation]
+- name: Generative AI
+  entities: [ContentGenerationCollection, ContentGenerationExecution, ContentGenerationResult, ContentGenerationExampleSet, AiServiceConnection, AiServiceModel, FineTuningExecution, LanguageModelArtifact, ChatTone, GuidedBlueprint]
+- name: Reporting
+  entities: [Report, ReportChart]
+- name: Commerce
+  entities: [Marketplace, Offer, Purchase]
+
+entities:
+- name: Tenant
+  description: Top-level customer workspace. Almost every route in the API requires a tenant token.
+  routes: [/v1/tenants, /v1/tenant/<tenant_id:int>]
+  relationships:
+  - {type: has_many, target: UserAlias, via: /v1/tenant/<tenant_id:int>/users}
+  - {type: has_many, target: ForeignAuthentication, via: /v1/foreign-authentications}
+  - {type: has_many, target: Account, via: /v1/accounts}
+- name: Account
+  description: >-
+    A registered customer cloud account (AWS, GCP, AZURE or ON_PREMISE) that Aible runs inside. The
+    route index publishes the NewAccount body shape verbatim.
+  routes: [/v1/accounts, /v1/account/<id:int>]
+  relationships:
+  - {type: belongs_to, target: Tenant, via: tenant token context}
+  - {type: has_many, target: ModelTrainingJob, via: /v1/accounts/<account_id:int>/jobs}
+  - {type: has_many, target: SchemaMonitor, via: /v1/account/<account_id:int>/schema_monitors}
+  - {type: has_many, target: LanguageModelArtifact, via: /v1/account/<account_id:int>/artifacts}
+- name: Folder
+  description: Container for projects, blueprints and training data, with its own role-based access list.
+  routes: [/v1/folders, /v1/folders/<folder_id:int>]
+  relationships:
+  - {type: has_many, target: Project, via: /v1/folders/<folder_id:int>/projects}
+  - {type: has_many, target: GuidedBlueprint, via: /v1/folders/<folder_id:int>/blueprints}
+  - {type: has_many, target: TrainingData, via: /v1/folders/<folder_id:int>/training_data}
+  - {type: has_many, target: FolderRole, via: /v1/folders/<folder_id:int>/roles}
+- name: TrainingData
+  description: An uploaded dataset. Upload is a presigned two-step (create upload url, then detail).
+  routes: [/v1/data, /v1/data/<training_data_id:int>]
+  relationships:
+  - {type: belongs_to, target: Folder, via: /v1/folders/<folder_id:int>/training_data}
+  - {type: has_many, target: RulefitMappings, via: /v1/data/<training_data_id:int>/rulefits}
+  - {type: has_many, target: Comment, via: /v1/data/<training_data_id:int>/comments}
+  - {type: has_many, target: Rating, via: /v1/data/<training_data_id:int>/ratings}
+- name: Project
+  description: The central modelling unit — an optimisation problem with scenarios, segments and tasks.
+  routes: [/v1/projects, /v1/projects/<project_id:int>]
+  relationships:
+  - {type: belongs_to, target: Folder, via: /v1/folders/<folder_id:int>/projects}
+  - {type: has_many, target: ProjectSegment, via: /v1/projects/<project_id:int>/segments}
+  - {type: has_many, target: ProjectScenario, via: /v1/projects/<project_id:int>/scenarios}
+  - {type: has_many, target: ProjectRole, via: /v1/projects/<project_id:int>/roles}
+  - {type: has_many, target: ProjectMonitor, via: /v1/projects/<project_id:int>/monitors}
+  - {type: has_many, target: Invocation, via: /v1/projects/<project_id:int>/invocations}
+  - {type: has_one, target: Deployment, via: /v1/projects/<project_id:int>/deploy}
+- name: ProjectSegment
+  description: A slice of a project with its own assumptions, jobs, monitors, tasks and feedback.
+  routes: [/v1/project_segments, /v1/project_segments/<project_segment_id:int>]
+  relationships:
+  - {type: belongs_to, target: Project, via: /v1/projects/<project_id:int>/segments}
+  - {type: has_many, target: ProjectSegmentAssumption, via: /v1/project_segments/<project_segment_id:int>/assumptions}
+  - {type: has_many, target: ProjectSegmentJob, via: /v1/project_segments/<project_segment_id:int>/jobs}
+  - {type: has_many, target: ProjectSegmentMonitor, via: /v1/project_segments/<project_segment_id:int>/monitors}
+  - {type: has_many, target: ProjectTask, via: /v1/project_segments/<project_segment_id:int>/tasks}
+  - {type: has_many, target: ProjectSegmentRole, via: /v1/project_segments/<project_segment_id:int>/roles}
+- name: ProjectScenario
+  description: A what-if scenario over a project's segments and their assumptions.
+  routes: [/v1/project_scenarios, /v1/project_scenarios/<scenario_id:int>]
+  relationships:
+  - {type: belongs_to, target: Project, via: /v1/projects/<project_id:int>/scenarios}
+  - {type: has_many, target: ProjectSegment, via: /v1/project_scenarios/<scenario_id:int>/segments}
+  - {type: has_many, target: ProjectSegmentAssumption, via: '/v1/project_scenario/<scenario_id:int>/segments/<project_segment_id:int>/assumptions'}
+- name: ModelTrainingJob
+  description: A training or scoring run. Cancellable while in flight; exposes a debug view and runs.
+  routes: [/v1/jobs, /v1/job/<job_id:int>]
+  relationships:
+  - {type: belongs_to, target: Account, via: /v1/accounts/<account_id:int>/jobs}
+  - {type: has_many, target: Run, via: /v1/job/<job_id:int>/runs}
+  - {type: has_many, target: Model, via: /v1/job/<job_id:int>/models}
+  - {type: has_one, target: Deployment, via: /v1/job/<job_id:int>/deployment}
+- name: Model
+  description: A trained model produced by a job.
+  routes: [/v1/models, /v1/model/<model_id:int>, /v1/job/<job_id:int>/<model_name:string>]
+  relationships:
+  - {type: belongs_to, target: ModelTrainingJob, via: /v1/job/<job_id:int>/models}
+- name: Deployment
+  description: A deployed, invokable model endpoint. Created from a project or a job; cancellable and redeployable.
+  routes: [/v1/deployments, /v1/deployment/<deployment_id:int>]
+  relationships:
+  - {type: belongs_to, target: Project, via: /v1/projects/<project_id:int>/deploy}
+  - {type: has_many, target: Invocation, via: /v1/deployment/<deployment_id:int>/invocations}
+- name: Invocation
+  description: A single call against a deployment — the inference/scoring record.
+  routes: [/v1/invocations]
+  relationships:
+  - {type: belongs_to, target: Deployment, via: /v1/deployment/<deployment_id:int>/invocations}
+- name: SchemaMonitor
+  description: Watches an input schema for drift; has its own presigned-url ingest route.
+  routes: [/v1/schema_monitors, /v1/schema_monitor/<schema_monitor_id:int>]
+  relationships:
+  - {type: belongs_to, target: Account, via: /v1/account/<account_id:int>/schema_monitors}
+- name: ContentGenerationCollection
+  description: A generative-AI collection grouping executions and their results.
+  routes: [/v1/content_generation_collections, /v1/content_generation_collections/<collection_id:int>]
+  relationships:
+  - {type: has_many, target: ContentGenerationExecution, via: /v1/content_generation_collections/<collection_id:int>/executions}
+  - {type: has_many, target: Comment, via: /v1/content_generation_collections/<collection_id:int>/comments}
+  - {type: has_many, target: Rating, via: /v1/content_generation_collections/<collection_id:int>/ratings}
+- name: ContentGenerationExecution
+  description: One generation run inside a collection.
+  routes: [/v1/content_generation_executions, /v1/content_generation_executions/<execution_id:int>]
+  relationships:
+  - {type: belongs_to, target: ContentGenerationCollection, via: /v1/content_generation_collections/<collection_id:int>/executions}
+  - {type: has_many, target: ContentGenerationResult, via: /v1/content_generation_executions/<execution_id:int>/results}
+- name: ContentGenerationResult
+  description: A single generated output, rateable and commentable, with its own usage record.
+  routes: [/v1/content_generation_results, /v1/content_generation_results/<result_id:int>]
+  relationships:
+  - {type: belongs_to, target: ContentGenerationExecution, via: /v1/content_generation_executions/<execution_id:int>/results}
+  - {type: has_many, target: Comment, via: /v1/content_generation_results/<result_id:int>/comments}
+- name: ContentGenerationExampleSet
+  description: A curated set of examples linked to results — Aible's few-shot / evaluation set.
+  routes: [/v1/content_generation_example_sets, /v1/content_generation_example_sets/<example_set_id:int>]
+  relationships:
+  - {type: has_many, target: ContentGenerationResult, via: /v1/content_generation_example_sets/<example_set_id:int>/results}
+- name: AiServiceConnection
+  description: A configured connection to an external model provider.
+  routes: [/v1/ai_service_connections, /v1/ai_service_connections/<connection_id:int>]
+  relationships:
+  - {type: has_many, target: AiServiceModel, via: /v1/ai_service_connections/<connection_id:int>/models}
+- name: AiServiceModel
+  description: A language model made available through a connection.
+  routes: [/v1/ai_service_models, /v1/ai_service_models/<model_id:int>]
+  relationships:
+  - {type: belongs_to, target: AiServiceConnection, via: /v1/ai_service_connections/<connection_id:int>/models}
+- name: FineTuningExecution
+  routes: [/v1/fine_tuning_executions, /v1/fine_tuning_executions/<execution_id:int>]
+  relationships: []
+- name: LanguageModelArtifact
+  description: An uploadable artifact attached to a language model, with comments, ratings and uploads.
+  routes: [/v1/language_model_artifacts, /v1/language_model_artifacts/<artifact_id:int>]
+  relationships:
+  - {type: belongs_to, target: Account, via: /v1/account/<account_id:int>/artifacts}
+- name: ChatTone
+  description: A reusable tone/persona applied to generated content.
+  routes: [/v1/chat_tones, /v1/chat_tones/<tone_id:int>]
+  relationships:
+  - {type: has_many, target: Rating, via: /v1/chat_tones/<tone_id:int>/ratings}
+- name: GuidedBlueprint
+  description: A reusable template ("blueprint") a business user starts an agent or project from.
+  routes: [/v1/blueprints, /v1/blueprint/<blueprint_id:int>]
+  relationships:
+  - {type: belongs_to, target: Folder, via: /v1/folders/<folder_id:int>/blueprints}
+  - {type: has_many, target: Tagged, via: /v1/blueprints/by/<tag_name:string>}
+- name: Report
+  description: A saved report composed of charts, with comments and ratings on both levels.
+  routes: [/v1/reports, /v1/reports/<report_id:int>]
+  relationships:
+  - {type: has_many, target: ReportChart, via: /v1/reports/<report_id:int>/charts}
+  - {type: has_many, target: Comment, via: /v1/reports/<report_id:int>/comments}
+- name: Tag
+  description: A named label. With Tagged, forms a polymorphic labelling system across entity types.
+  routes: [/v1/tags, /v1/tag/<tag_name:str>]
+  relationships:
+  - {type: has_many, target: Tagged, via: /v1/tagged/<tag_name:string>}
+- name: Tagged
+  description: The join record binding a tag to one entity of a given type.
+  routes: [/v1/tagged, /v1/tagged/<tag_name:string>/<tag_type:string>/<tagged_id:int>]
+  relationships:
+  - {type: belongs_to, target: Tag, via: /v1/tags/by/<entity_type:str>}
+- name: Marketplace
+  description: A cloud marketplace registration (AWS / Azure) through which Aible is purchased.
+  routes: [/v1/marketplaces, /v1/marketplace/<marketplace_id:int>]
+  relationships:
+  - {type: has_many, target: Offer, via: /v1/marketplace/<marketplace_id:int>/offers}
+  - {type: has_many, target: Purchase, via: /v1/marketplace/<marketplace_id:int>/purchased}
+- name: Offer
+  description: A purchasable offer. Buyable over the API; archivable but with no refund path.
+  routes: [/v1/offer/<offer_id:int>, /v1/offer/<offer_id:int>/buy]
+  relationships:
+  - {type: belongs_to, target: Marketplace, via: /v1/marketplace/<marketplace_id:int>/offers}
+
+polymorphic_patterns:
+- name: comments-and-ratings
+  description: >-
+    Nine entity types (TrainingData, ChatTone, LanguageModelArtifact, Comment, Report, ReportChart,
+    ProjectScenario, ProjectSegmentAssumption, ProjectTask, and the four content-generation types)
+    expose the same /comments and /ratings sub-collections, plus a standalone /v1/comments/<id>
+    resource that is itself commentable and rateable.
+- name: tagging
+  description: >-
+    Tag/Tagged applies across blueprints, training data, jobs and runs, queried either by tag name
+    (/v1/<collection>/by/<tag_name>) or by entity (/v1/tags/by/<entity_type>/<entity_id>).
+- name: roles
+  description: >-
+    Folder, Project and ProjectSegment each carry a parallel *Role resource, so access control is
+    modelled per container rather than globally.
+
+gaps:
+- No field-level schemas. The route index prints body shapes inline for a minority of routes
+  (NewAccount, NewUser, LoginRequest, STSRequest and a handful of others); these were not
+  transcribed into per-entity property lists here because coverage is partial.
+- No published id formats, timestamps, or enum vocabularies beyond the account type enum
+  (AWS | GCP | AZURE | ON_PREMISE).
+- No subway/ render exists for this repo.

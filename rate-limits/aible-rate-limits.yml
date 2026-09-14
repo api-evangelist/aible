@@ -1,0 +1,42 @@
+generated: '2026-09-14'
+method: probed
+source: https://api.iamaible.com/v1/me
+name: Aible API rate limits
+description: >-
+  Aible publishes no rate limits. The route index at https://api.iamaible.com/ says nothing about
+  throttling, quotas or retry behaviour, and live responses from the API host carry no rate-limit
+  headers of any kind. Consumption is metered commercially in Flex Credits rather than in requests,
+  and that metering is not surfaced to callers at runtime.
+limit_count: 0
+documented: false
+headers_returned: []
+status_on_exhaustion: unknown
+retry_after: false
+x-evidence:
+  fetched: '2026-09-14'
+  probes:
+  - url: https://api.iamaible.com/v1/me
+    http_status: 403
+    rate_limit_headers_present: false
+    headers_observed: [date, content-type, content-length, server, strict-transport-security, content-security-policy-report-only, x-request-id, x-request-id-valuefrom, vary]
+  - url: https://api.iamaible.com/v1/config
+    http_status: 403
+    rate_limit_headers_present: false
+  - url: https://api.iamaible.com/
+    http_status: 200
+    rate_limit_headers_present: false
+limits: []
+related_metering:
+  model: prepaid Flex Credits, drawn down by platform usage
+  runtime_signal: none
+  usage_routes:
+  - {method: GET, path: /v1/account/<id:int>/usage, id: account.usage}
+  - {method: GET, path: /v1/tenant/<tenant_id:int>/usage-report, id: tenant.usage_report}
+  - {method: PATCH, path: /v1/content_generation_results/<result_id:int>/usage, id: content_generation.update_usage_data}
+  note: >-
+    Usage is readable after the fact through tenant and account usage routes, but there is no
+    RateLimit-*, X-RateLimit-* or Retry-After header telling a client how close it is to a ceiling.
+gaps:
+- No documented limits, windows, burst allowances or per-endpoint ceilings.
+- No rate-limit response headers, so an agent cannot back off on a signal — only on a failure.
+- The 429 behaviour, if any, is unobservable without credentials and is not guessed at here.

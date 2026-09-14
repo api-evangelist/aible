@@ -64,5 +64,22 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Aible is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://www.nasdaqprivatemarket.com/
+Aible is an enterprise AI company founded in 2018 and headquartered in Pleasanton, California. It
+lets business users build and run AI agents, AutoML models and generative-AI analytics against data
+that stays inside the customer's own AWS, Azure, GCP or on-premise account.
+
+Aible operates the platform through a public REST API at `https://api.iamaible.com`. That API server
+publishes its own route index at its root — 394 routes across 29 modules under `/v1`, each labelled
+with its HTTP methods, return type and required token class — and that human-readable page is the
+whole of Aible's published contract. There is no OpenAPI, AsyncAPI, GraphQL SDL, gRPC or WSDL
+definition, no MCP server, no A2A agent card, no SDK in any language, no CLI, no public GitHub
+organization, no Postman collection, no `/.well-known` document on any host, no status page and no
+published rate limits. Commercial access is sold as prepaid Flex Credits through the AWS and Google
+Cloud marketplaces; `aible.com/pricing` returns 404.
+
+The artifacts in this repository are derived from that published route index and from live probes of
+the API host, each recording the URL fetched and the HTTP status it returned.
+
+- Website: https://www.aible.com/
+- API reference: https://api.iamaible.com/
+- Sign in: https://www.iamaible.com/login

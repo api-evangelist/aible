@@ -1,0 +1,50 @@
+generated: '2026-09-14'
+method: searched
+source: https://www.aible.com/whats_new
+name: Aible release notes
+description: >-
+  Aible publishes dated "What's New" release-note pages on its marketing site. They describe platform
+  and product releases, not API changes: no route additions, no breaking-change notices and no version
+  numbers appear. There is no separate API changelog.
+url: https://www.aible.com/whats_new
+scheme: date-based
+current_version: null
+api_scoped: false
+breaking_change_notices: false
+x-evidence:
+  fetched: '2026-09-14'
+  url: https://www.aible.com/whats_new
+  http_status: 200
+  redirects_to: https://www.aible.com/whats_new_oct_31_2025
+  note: >-
+    The /whats_new path 302s to the most recent dated edition. Individual editions are separately
+    addressable, e.g. https://www.aible.com/whats_new_july_4_2026 (HTTP 200, linked from the homepage).
+entries:
+- version: null
+  date: '2026-07-04'
+  url: https://www.aible.com/whats_new_july_4_2026
+  breaking: false
+  additions: unknown
+  highlights: Dated July 2026 release edition, linked from the Aible homepage navigation.
+- version: null
+  date: '2025-10-31'
+  url: https://www.aible.com/whats_new_oct_31_2025
+  breaking: false
+  additions: unknown
+  highlights: >-
+    Aible on Spark; Focused Deep Dive Analysis; Nemotron and GPT-OSS model support; Benchmark
+    Analysis Templates.
+- version: null
+  date: '2025-07-04'
+  url: null
+  breaking: false
+  highlights: Referenced on the release-notes timeline as the 7 - 2025 edition.
+- version: null
+  date: '2025-02-14'
+  url: null
+  breaking: false
+  highlights: Referenced on the release-notes timeline as the 2 - 2025 edition.
+gaps:
+- Release notes are product-level marketing pages, not an API changelog.
+- No version numbers, no breaking-change flags, no per-route change records.
+- No RSS/Atom feed or machine-readable changelog is served.

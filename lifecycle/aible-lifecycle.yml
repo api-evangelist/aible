@@ -1,0 +1,68 @@
+generated: '2026-09-14'
+method: searched
+source: https://api.iamaible.com/ + https://www.aible.com/whats_new + https://www.aible.com/aible-terms-of-use
+name: Aible API lifecycle
+description: >-
+  Versioning, deprecation, status and support posture for the Aible API. Aible versions its API by
+  path prefix and ships dated product release notes, but publishes no deprecation policy, no Sunset
+  or Deprecation header commitment, no SLA and no status page.
+
+versioning:
+  scheme: path-prefix
+  current_version: v1
+  server_build: 2.0.0+git.2624722d65b50b4d1dc4c6032742eca9dc361380
+  server_header: mjolnir/2.0.0/<per-request uuid>
+  evidence: https://api.iamaible.com/
+  policy_published: false
+  note: >-
+    The API server reports a semantic build version and a git SHA in its own route index, which is
+    more than most providers expose, but there is no statement of what a major bump would mean for
+    callers and no second version path is served.
+
+deprecation:
+  policy_published: false
+  policy_url: null
+  sunset_header: unknown
+  deprecation_header: unknown
+  rfc8594: false
+  deprecated_operations: []
+  note: >-
+    No deprecation or sunset policy appears in the route index, the terms of use, or anywhere on
+    www.aible.com. No route in the published index is marked deprecated. Because Aible publishes no
+    OpenAPI, there is also no `deprecated: true` flag to derive from.
+
+status_page:
+  published: false
+  url: null
+  probes:
+  - {url: 'https://status.aible.com/', result: 'NXDOMAIN'}
+  - {url: 'https://status.iamaible.com/', result: 'NXDOMAIN'}
+  - {url: 'https://www.aible.com/status', http_status: 404}
+  note: No status or uptime page could be found on any Aible host.
+
+sla:
+  published: false
+  url: null
+  note: >-
+    The public terms of use (https://www.aible.com/aible-terms-of-use, HTTP 200) are consumer-style
+    terms; no uptime commitment, credit schedule or support-response SLA is published publicly.
+    Support response commitments are referenced only for channel partners.
+
+release_notes:
+  published: true
+  url: https://www.aible.com/whats_new
+  detail: changelog/aible-changelog.yml
+
+support:
+  public_channel: https://www.aible.com/partner_support
+  partner_email: partner_support@aible.com
+  partner_phone: '+1-650-352-6121'
+  community: https://aible.zendesk.com
+  community_public: false
+  community_probe: {url: 'https://aible.zendesk.com', http_status: 403, note: 'redirects to Zendesk "help center closed" — the knowledge base is not public'}
+
+gaps:
+- No deprecation or sunset policy of any kind.
+- No status page.
+- No public SLA.
+- No public API changelog distinct from the marketing release-notes pages.

@@ -1,0 +1,83 @@
+generated: '2026-09-14'
+method: searched
+source: https://aws.amazon.com/marketplace/pp/prodview-77t5fm3cysegw
+name: Aible plans and pricing
+description: >-
+  Aible publishes no pricing page on its own website — https://www.aible.com/pricing returns HTTP 404
+  — and sells instead through cloud marketplaces on a prepaid credit model. The only public, priced
+  listing found is Aible Flex Credits on AWS Marketplace, whose bundle table is recorded verbatim
+  below. Aible's own products (Sense, Explore, Optimize) are drawn down against those credits; Aible
+  does not publish per-product list prices publicly, and no API-specific pricing, per-call rate or
+  free tier is published anywhere.
+plan_count: 4
+pricing_model: prepaid-credits
+currency: USD
+billing_period: 1-month contract, credits valid 12 months from purchase
+self_service_signup: via AWS Marketplace
+free_tier: false
+api_metered_pricing_published: false
+x-evidence:
+  fetched: '2026-09-14'
+  probes:
+  - {url: 'https://www.aible.com/pricing', http_status: 404, note: 'no pricing page on the provider site'}
+  - {url: 'https://aws.amazon.com/marketplace/pp/prodview-77t5fm3cysegw', http_status: 200, note: 'Aible Flex Credits listing — the priced table below'}
+  - {url: 'https://aws.amazon.com/marketplace/seller-profile?id=fee8fe26-23a7-4cbd-8610-06dd01f53dd3', http_status: 200, note: 'Aible seller profile — carries a description only, no product prices'}
+  - {url: 'https://console.cloud.google.com/marketplace/product/aible-gcp-marketplace-public/aible', http_status: 200, note: 'Aible is also listed on Google Cloud Marketplace; the console listing was not readable anonymously for pricing'}
+plans:
+- name: Getting Started Bundle
+  price: 2425.50
+  currency: USD
+  billing_period: monthly
+  contract: 1 month
+  included_quota: 300 Flex Credits
+  overage: null
+  limits:
+    credit_expiry: 12 months from date of purchase
+    refunds: none
+  source: https://aws.amazon.com/marketplace/pp/prodview-77t5fm3cysegw
+- name: Flex Credits-Small
+  price: 7837.50
+  currency: USD
+  billing_period: monthly
+  contract: 1 month
+  included_quota: 1000 Flex Credits
+  overage: null
+  limits:
+    credit_expiry: 12 months from date of purchase
+    refunds: none
+  source: https://aws.amazon.com/marketplace/pp/prodview-77t5fm3cysegw
+- name: Flex Credits-Medium
+  price: 21441.67
+  currency: USD
+  billing_period: monthly
+  contract: 1 month
+  included_quota: 3000 Flex Credits
+  overage: null
+  limits:
+    credit_expiry: 12 months from date of purchase
+    refunds: none
+  source: https://aws.amazon.com/marketplace/pp/prodview-77t5fm3cysegw
+- name: Flex Credits-Large
+  price: 42075.00
+  currency: USD
+  billing_period: monthly
+  contract: 1 month
+  included_quota: 6000 Flex Credits
+  overage: null
+  limits:
+    credit_expiry: 12 months from date of purchase
+    refunds: none
+  source: https://aws.amazon.com/marketplace/pp/prodview-77t5fm3cysegw
+notes:
+- >-
+  Credits are consumed by Aible's products (Sense, Explore, Optimize) and professional services. The
+  per-product credit cost is not published on any public page reachable without a sales conversation,
+  so it is not recorded here.
+- >-
+  Aible runs inside the customer's own cloud account, so the underlying compute, storage and model
+  inference costs are billed by AWS / Azure / GCP separately and are not covered by Flex Credits.
+- >-
+  The API exposes commerce routes of its own — /v1/marketplaces, /v1/marketplace/<id>/offers,
+  /v1/offer/<id>/buy, /v1/purchased/<id>, /v1/licensing, plus AWS Flex-credit provisioning hooks at
+  /v1/aws/flex/<customer_id>/<product_code>/add — so purchasing is programmable, but the catalogue
+  behind those routes is tenant-scoped and not publicly readable.

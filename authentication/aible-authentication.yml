@@ -1,0 +1,185 @@
+generated: '2026-09-14'
+method: searched
+source: https://api.iamaible.com/
+name: Aible API authentication
+description: >-
+  Aible protects its API with opaque bearer session tokens, not API keys and not a public
+  OAuth 2.0 authorization server. The published route index states it plainly: "Nearly all
+  API operations are protected and require a header (Authorization) set to a string beginning
+  with Bearer ... where ... is your authenticated session token." Three token classes exist —
+  user token, tenant token, and a short-lived STS token scoped to a route set — and the route
+  index labels every route with the class it requires. Enterprise SSO (SAML 2.0, OAuth 2.0
+  authorization-code reply, Microsoft Entra/Azure, and Google Cloud IAP) is supported for
+  interactive sign-in. No OpenAPI securitySchemes block exists because Aible publishes no
+  OpenAPI; everything below is read from the provider's own route index and from live
+  unauthenticated probes of the API host.
+docs: https://api.iamaible.com/
+x-evidence:
+  fetched: '2026-09-14'
+  route_index:
+    url: https://api.iamaible.com/
+    http_status: 200
+  unauthenticated_probe:
+    url: https://api.iamaible.com/v1/me
+    http_status: 403
+    body: '{"type":"Invalid Token","message":"Unable to locate Authorization header!","key":null}'
+    note: >-
+      Aible answers a missing Authorization header with 403, not 401, and returns no
+      WWW-Authenticate challenge header.
+
+summary:
+  auth_types:
+  - http-bearer
+  api_key_locations: []
+  oauth2_flows: []
+  openid_connect: false
+  mutual_tls: false
+  public_authorization_server: false
+  sso_federation:
+  - saml2
+  - oauth2-authorization-code
+  - microsoft-entra
+  - google-cloud-iap
+  token_classes: 3
+  routes_requiring_tenant_token: 349
+  routes_requiring_user_token: 9
+  routes_requiring_any_token: 10
+  routes_unlabelled: 26
+
+schemes:
+- id: bearer-session-token
+  type: http
+  scheme: bearer
+  in: header
+  parameter: Authorization
+  format: 'Bearer <session token>'
+  description: >-
+    Opaque session token issued by the login routes. Expires; renewable before expiry via the
+    renewal routes below rather than by re-authenticating.
+  applies_to: nearly all /v1 routes
+
+token_classes:
+- id: user-token
+  label: user token
+  description: Identifies a human user session. Used by /v1/me, /v1/logout and the user-token renewal route.
+  renew:
+    operation: login.renew_user_token
+    method: POST
+    path: /v1/renew/login
+  routes_labelled: 9
+- id: tenant-token
+  label: tenant token
+  description: >-
+    Identifies a tenant (workspace/organization) context. This is the dominant token class —
+    349 of 394 published routes are labelled "requires tenant token".
+  renew:
+    operation: tenant.renew_token
+    method: POST
+    path: /v1/renew/tenant
+  routes_labelled: 349
+- id: sts-token
+  label: short-lived STS token
+  description: >-
+    "Allocate a short lived session token restricted to routes." Minted from a tenant token and
+    scoped down to a named route set — the closest thing Aible publishes to a scope model.
+  mint:
+    operation: tenant.create_sts_token
+    method: POST
+    path: /v1/tenant/<tenant_id:int>/sts
+  related:
+    - operation: account.create_foreign_sts_token
+      method: POST
+      path: /v1/account/<id:int>/foreign_sts
+      note: >-
+        Mints credentials for the customer's own cloud account so a client can call the Cloud
+        Account API directly, or relay through /v1/account/<id>/communicate.
+  routes_labelled: 0
+  note: >-
+    STS tokens are not a separate label in the route index; they are accepted in place of a
+    tenant token on relay routes, per the account.communicate docstring.
+
+flows:
+- id: password-login
+  description: Email + password sign-in returning a user session.
+  steps:
+  - operation: login.login_user
+    method: POST
+    path: /v1/login
+    body: '{"email": str}'
+    note: Returns a ProvisionalLoginRequest — the tenant/SSO discovery step.
+  - operation: login.check_password
+    method: POST
+    path: /v1/login/password
+    body: '{"token": str, "password": str}'
+    note: Returns a UserSession carrying the bearer token.
+- id: saml-sso
+  description: SAML 2.0 service-provider-initiated SSO, per tenant.
+  steps:
+  - operation: login.service_provider_initiated_login
+    method: POST
+    path: /v1/login/by/<tenant_id:int>/via/<key:str>
+  - operation: login.saml_reply
+    method: POST
+    path: /v1/login/saml-reply
+    note: SAML ACS endpoint.
+  - operation: login.service_provider_initiated_logout_reply
+    method: POST
+    path: /v1/logout/saml-reply
+- id: oauth2-sso
+  description: >-
+    OAuth 2.0 authorization-code reply handler. Aible acts as the OAuth CLIENT here; it does not
+    publish an authorization server of its own, and no /.well-known/oauth-authorization-server or
+    /.well-known/openid-configuration document is served on any Aible host.
+  steps:
+  - operation: login.oauth2_reply
+    method: GET
+    path: /v1/login/oauth2-reply
+    body: '{"code": str, "state": str}'
+- id: microsoft-entra-sso
+  description: Microsoft Entra ID / Azure AD authorization reply.
+  steps:
+  - operation: login.on_azure_authorized_get
+    method: GET
+    path: /v1/login/azure/authorized
+  - operation: login.on_azure_authorized_post
+    method: POST
+    path: /v1/login/azure/authorized
+- id: google-cloud-iap
+  description: Identity-Aware Proxy initiated sign-in, for Aible deployments fronted by Google Cloud IAP.
+  steps:
+  - operation: login.iap_initiated
+    method: GET
+    path: /v1/login/iap
+- id: lookup-token
+  description: >-
+    "Generates a random lookup token and associates it with the tenant's API token." A tenant-scoped
+    indirection so a third party can validate a handed-out token without holding the tenant token.
+  steps:
+  - operation: login.create_lookup_token
+    method: POST
+    path: /v1/lookup-token
+  - operation: login.validate_lookup_token
+    method: POST
+    path: /v1/lookup-token/validate
+
+federation:
+- id: tenant-foreign-authentication
+  description: >-
+    Per-tenant identity-provider registrations, managed over the API rather than only in a console.
+  operations:
+  - {method: GET,    path: /v1/foreign-authentications, id: tenant.list_foreign_authentications}
+  - {method: POST,   path: /v1/foreign-authentications, id: tenant.create_foreign_authentication}
+  - {method: GET,    path: /v1/foreign-authentication/<key_or_id:str>, id: tenant.get_foreign_authentication}
+  - {method: PATCH,  path: /v1/foreign-authentication/<key_or_id:str>, id: tenant.update_foreign_authentication}
+  - {method: DELETE, path: /v1/foreign-authentication/<key_or_id:str>, id: tenant.delete_foreign_authentication}
+
+gaps:
+- No machine-readable securityScheme declaration (no OpenAPI, Swagger or AsyncAPI is published).
+- No OAuth 2.0 scope model; the nearest equivalent is the route-restricted STS token.
+- No /.well-known/oauth-authorization-server, /.well-known/openid-configuration or
+  /.well-known/oauth-protected-resource on any Aible host (all 404 on api.iamaible.com and
+  aible.com; iamaible.com answers 200 with an SPA shell, which is not a document).
+- Missing credentials return 403 without a WWW-Authenticate header, so a client cannot discover
+  the scheme from the challenge.
+- No public authentication guide outside the route index; the support community at
+  aible.zendesk.com is closed to the public (403).

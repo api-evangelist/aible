@@ -1,0 +1,82 @@
+generated: '2026-09-14'
+method: probed
+source: https://api.iamaible.com/v1/me
+name: Aible API error catalog
+description: >-
+  Aible publishes no error reference and no OpenAPI response schemas, so this catalog records only
+  what was observed on the live API host and what the published route index states. The error
+  envelope is a flat JSON object with three keys — type, message and key — and is NOT RFC 9457
+  application/problem+json; responses carry content-type application/json.
+format: custom-json
+rfc9457: false
+media_type: application/json
+docs: null
+
+envelope:
+  shape: '{"type": <string>, "message": <string>, "key": <string|null>}'
+  fields:
+  - name: type
+    description: Short human-readable error class, e.g. "Invalid Token". Title-cased prose, not a stable machine code.
+  - name: message
+    description: Human-readable detail, e.g. "Unable to locate Authorization header!".
+  - name: key
+    description: Observed null on auth failures; purpose undocumented. Likely names the offending field or entity.
+  machine_readable_code: false
+  note: >-
+    `type` is prose, not a stable enumerated code, and no error-code reference is published. An agent
+    cannot branch reliably on this envelope beyond the HTTP status.
+
+x-evidence:
+  fetched: '2026-09-14'
+  probes:
+  - url: https://api.iamaible.com/v1/me
+    method: GET
+    http_status: 403
+    content_type: application/json
+    body: '{"type":"Invalid Token","message":"Unable to locate Authorization header!","key":null}'
+  - url: https://api.iamaible.com/v1/config
+    method: GET
+    http_status: 403
+    content_type: application/json
+    body: '{"type":"Invalid Token","message":"Unable to locate Authorization header!","key":null}'
+  - url: https://api.iamaible.com/v1/tenants
+    method: GET
+    http_status: 403
+    content_type: application/json
+    body: '{"type":"Invalid Token","message":"Unable to locate Authorization header!","key":null}'
+  - url: https://api.iamaible.com/openapi.json
+    method: GET
+    http_status: 404
+    content_type: text/plain; charset=utf-8
+    body: 'Not Found: https://api.iamaible.com/openapi.json'
+    note: Unknown routes return a text/plain 404, not the JSON envelope.
+
+problem_types:
+- id: invalid-token
+  title: Invalid Token
+  status: 403
+  type_value: Invalid Token
+  detail_observed: Unable to locate Authorization header!
+  meaning: No Authorization header was present, or the bearer session token was rejected.
+  remediation: >-
+    Obtain a session token (POST /v1/login then POST /v1/login/password, or an SSO flow) and send it
+    as `Authorization: Bearer <token>`. If the token was valid earlier it has expired — renew it with
+    POST /v1/renew/login (user token) or POST /v1/renew/tenant (tenant token) before expiry.
+  method: probed
+  evidence: https://api.iamaible.com/v1/me
+- id: not-found
+  title: Not Found
+  status: 404
+  media_type: text/plain
+  detail_observed: 'Not Found: <requested url>'
+  meaning: No route matches the requested path. Returned as plain text, outside the JSON envelope.
+  remediation: Check the route against the published route index at https://api.iamaible.com/.
+  method: probed
+  evidence: https://api.iamaible.com/openapi.json
+
+gaps:
+- No published error-code reference or status-code table.
+- Errors are not RFC 9457 problem+json, and `type` is not a URI or a stable code.
+- Authentication failure returns 403 rather than 401, and without a WWW-Authenticate header.
+- Only unauthenticated failure modes could be observed; 4xx validation and 5xx shapes behind
+  authentication are unmeasured and are NOT guessed at here.

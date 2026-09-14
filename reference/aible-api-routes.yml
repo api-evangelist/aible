@@ -1,0 +1,2897 @@
+generated: '2026-09-14'
+method: searched
+source: https://api.iamaible.com/
+name: Aible API route inventory
+description: 'Structured inventory parsed verbatim from the route index the Aible API server publishes, unauthenticated,
+  at its own root (https://api.iamaible.com/). This is NOT an OpenAPI definition and is not presented as one: Aible
+  publishes no OpenAPI, Swagger, AsyncAPI or GraphQL contract. Every path, HTTP method, return type, required-token
+  class and summary line below was read from that published page; nothing here was authored, inferred or completed
+  by API Evangelist. It exists so the derived artifacts in this repo (authentication/, errors/, conventions/, data-model/,
+  lifecycle/) can cite a grounded, auditable source.'
+x-evidence:
+  fetched: '2026-09-14'
+  url: https://api.iamaible.com/
+  http_status: 200
+  content_type: text/html; charset=utf-8
+  server_version: 2.0.0+git.2624722d65b50b4d1dc4c6032742eca9dc361380
+  routes_declared_by_page: 397
+  routes_parsed: 394
+summary:
+  route_count: 394
+  module_count: 29
+  path_prefix: /v1
+  methods:
+    HEAD: 6
+    GET: 176
+    POST: 126
+    PATCH: 49
+    DELETE: 51
+    PUT: 3
+  auth_classes:
+    unlabelled: 26
+    requires tenant token: 349
+    requires user token: 9
+    requires any token: 10
+modules:
+- name: account
+  route_count: 13
+  routes:
+  - id: account.delete
+    path: /v1/account/<id:int>
+    methods:
+    - DELETE
+    returns: Account
+    auth: requires tenant token
+    summary: delete
+  - id: account.get
+    path: /v1/account/<id:int>
+    methods:
+    - GET
+    returns: Account
+    auth: requires tenant token
+    summary: get
+  - id: account.update
+    path: /v1/account/<id:int>
+    methods:
+    - PATCH
+    returns: Account
+    auth: requires tenant token
+    summary: update
+  - id: account.communicate_index
+    path: /v1/account/<id:int>/communicate
+    methods:
+    - POST
+    - HEAD
+    - PATCH
+    - DELETE
+    - PUT
+    - GET
+    returns: null
+    auth: requires tenant token
+    summary: communicate
+  - id: account.communicate
+    path: /v1/account/<id:int>/communicate/<path:path>
+    methods:
+    - POST
+    - HEAD
+    - PATCH
+    - DELETE
+    - PUT
+    - GET
+    returns: null
+    auth: requires tenant token
+    summary: communicate
+  - id: account.create_foreign_sts_token
+    path: /v1/account/<id:int>/foreign_sts
+    methods:
+    - GET
+    returns: ForeignSTSSession
+    auth: requires tenant token
+    summary: create_foreign_sts_token
+  - id: account.presigned_url
+    path: /v1/account/<id:int>/presigned_url
+    methods:
+    - POST
+    returns: PresignedURL
+    auth: requires tenant token
+    summary: presigned_url
+  - id: account.list_resources_for_account
+    path: /v1/account/<id:int>/resources
+    methods:
+    - GET
+    returns: dict
+    auth: requires tenant token
+    summary: list_resources_for_account
+  - id: account.create_setup_script
+    path: /v1/account/<id:int>/setup.sh
+    methods:
+    - GET
+    returns: '`ShellScript`'
+    auth: requires tenant token
+    summary: create_setup_script
+  - id: account.update_remote_stack
+    path: /v1/account/<id:int>/sync
+    methods:
+    - POST
+    returns: Account
+    auth: requires tenant token
+    summary: update_remote_stack
+  - id: account.usage
+    path: /v1/account/<id:int>/usage
+    methods:
+    - POST
+    returns: UsageEvent
+    auth: requires tenant token
+    summary: usage
+  - id: account.create
+    path: /v1/accounts
+    methods:
+    - POST
+    returns: Account
+    auth: requires tenant token
+    summary: create
+  - id: account.list_all
+    path: /v1/accounts
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: list_all
+- name: aws
+  route_count: 4
+  routes:
+  - id: aws.provision_flex_credits
+    path: /v1/aws/flex/<customer_id:str>/<product_code:str>/add
+    methods:
+    - GET
+    returns: null
+    auth: null
+    summary: provision_flex_credits
+  - id: aws.process_provision_flex_credits
+    path: /v1/aws/flex/<customer_id:str>/<product_code:str>/process
+    methods:
+    - POST
+    returns: Annotated
+    auth: null
+    summary: process_provision_flex_credits
+  - id: aws.handle_aws_purchase_change
+    path: /v1/aws/on_subscription_change
+    methods:
+    - POST
+    returns: Annotated
+    auth: null
+    summary: handle_aws_purchase_change
+  - id: aws.handle_new_aws_purchase
+    path: /v1/aws/provision
+    methods:
+    - GET
+    returns: Annotated
+    auth: null
+    summary: handle_new_aws_purchase
+- name: azure
+  route_count: 3
+  routes:
+  - id: azure.provision_azure_html
+    path: /v1/azure/provision
+    methods:
+    - GET
+    returns: null
+    auth: null
+    summary: provision_azure_html
+  - id: azure.provision_azure_post
+    path: /v1/azure/provision
+    methods:
+    - POST
+    returns: Tenant
+    auth: null
+    summary: provision_azure_post
+  - id: azure.update_azure_subscription
+    path: /v1/azure/update
+    methods:
+    - POST
+    returns: Annotated
+    auth: null
+    summary: update_azure_subscription
+- name: blueprint
+  route_count: 6
+  routes:
+  - id: blueprint.delete
+    path: /v1/blueprint/<blueprint_id:int>
+    methods:
+    - DELETE
+    returns: GuidedBlueprint
+    auth: requires tenant token
+    summary: delete
+  - id: blueprint.get
+    path: /v1/blueprint/<blueprint_id:int>
+    methods:
+    - GET
+    returns: GuidedBlueprint
+    auth: requires tenant token
+    summary: get
+  - id: blueprint.update
+    path: /v1/blueprint/<blueprint_id:int>
+    methods:
+    - PATCH
+    returns: GuidedBlueprint
+    auth: requires tenant token
+    summary: update
+  - id: blueprint.create
+    path: /v1/blueprints
+    methods:
+    - POST
+    returns: GuidedBlueprint
+    auth: requires tenant token
+    summary: create
+  - id: blueprint.list_all
+    path: /v1/blueprints
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: list_all
+  - id: blueprint.list_by_tag
+    path: /v1/blueprints/by/<tag_name:string>
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: list_by_tag
+- name: chat_tone
+  route_count: 9
+  routes:
+  - id: chat_tone.create
+    path: /v1/chat_tones
+    methods:
+    - POST
+    returns: ChatTone
+    auth: requires tenant token
+    summary: create
+  - id: chat_tone.list_all
+    path: /v1/chat_tones
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: list_all
+  - id: chat_tone.delete
+    path: /v1/chat_tones/<tone_id:int>
+    methods:
+    - DELETE
+    returns: ChatTone
+    auth: requires tenant token
+    summary: delete
+  - id: chat_tone.get
+    path: /v1/chat_tones/<tone_id:int>
+    methods:
+    - GET
+    returns: ChatTone
+    auth: requires tenant token
+    summary: get
+  - id: chat_tone.update
+    path: /v1/chat_tones/<tone_id:int>
+    methods:
+    - PATCH
+    returns: ChatTone
+    auth: requires tenant token
+    summary: update
+  - id: chat_tone.add_tone_comment
+    path: /v1/chat_tones/<tone_id:int>/comments
+    methods:
+    - POST
+    returns: Comment
+    auth: requires tenant token
+    summary: add_tone_comment
+  - id: chat_tone.get_training_data_comments
+    path: /v1/chat_tones/<tone_id:int>/comments
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_training_data_comments
+  - id: chat_tone.add_tones_rating
+    path: /v1/chat_tones/<tone_id:int>/ratings
+    methods:
+    - POST
+    returns: Rating
+    auth: requires tenant token
+    summary: add_tones_rating
+  - id: chat_tone.get_tones_ratings
+    path: /v1/chat_tones/<tone_id:int>/ratings
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_tones_ratings
+- name: comment
+  route_count: 7
+  routes:
+  - id: comment.delete_comment
+    path: /v1/comments/<comment_id:int>
+    methods:
+    - DELETE
+    returns: Comment
+    auth: requires tenant token
+    summary: delete_comment
+  - id: comment.get_comment
+    path: /v1/comments/<comment_id:int>
+    methods:
+    - GET
+    returns: Comment
+    auth: requires tenant token
+    summary: get_comment
+  - id: comment.update_comment
+    path: /v1/comments/<comment_id:int>
+    methods:
+    - PATCH
+    returns: Comment
+    auth: requires tenant token
+    summary: update_comment
+  - id: comment.add_comment_comment
+    path: /v1/comments/<comment_id:int>/comments
+    methods:
+    - POST
+    returns: list
+    auth: requires tenant token
+    summary: add_comment_comment
+  - id: comment.get_comment_comments
+    path: /v1/comments/<comment_id:int>/comments
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_comment_comments
+  - id: comment.add_comment_rating
+    path: /v1/comments/<comment_id:int>/ratings
+    methods:
+    - POST
+    returns: list
+    auth: requires tenant token
+    summary: add_comment_rating
+  - id: comment.get_comment_ratings
+    path: /v1/comments/<comment_id:int>/ratings
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_comment_ratings
+- name: content_generation
+  route_count: 54
+  routes:
+  - id: content_generation.create_connection
+    path: /v1/ai_service_connections
+    methods:
+    - POST
+    returns: AiServiceConnection
+    auth: requires tenant token
+    summary: create_connection
+  - id: content_generation.list_all_connections
+    path: /v1/ai_service_connections
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: list_all_connections
+  - id: content_generation.delete_connection
+    path: /v1/ai_service_connections/<connection_id:int>
+    methods:
+    - DELETE
+    returns: AiServiceConnection
+    auth: requires tenant token
+    summary: delete_connection
+  - id: content_generation.get_connection
+    path: /v1/ai_service_connections/<connection_id:int>
+    methods:
+    - GET
+    returns: AiServiceConnection
+    auth: requires tenant token
+    summary: get_connection
+  - id: content_generation.update_connection
+    path: /v1/ai_service_connections/<connection_id:int>
+    methods:
+    - PATCH
+    returns: AiServiceConnection
+    auth: requires tenant token
+    summary: update_connection
+  - id: content_generation.create_model
+    path: /v1/ai_service_connections/<connection_id:int>/models
+    methods:
+    - POST
+    returns: AiServiceModel
+    auth: requires tenant token
+    summary: create_model
+  - id: content_generation.list_all_models
+    path: /v1/ai_service_connections/<connection_id:int>/models
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: list_all_models
+  - id: content_generation.list_all_models
+    path: /v1/ai_service_models
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: list_all_models
+  - id: content_generation.delete_model
+    path: /v1/ai_service_models/<model_id:int>
+    methods:
+    - DELETE
+    returns: AiServiceModel
+    auth: requires tenant token
+    summary: delete_model
+  - id: content_generation.get_model
+    path: /v1/ai_service_models/<model_id:int>
+    methods:
+    - GET
+    returns: AiServiceModel
+    auth: requires tenant token
+    summary: get_model
+  - id: content_generation.update_model
+    path: /v1/ai_service_models/<model_id:int>
+    methods:
+    - PATCH
+    returns: AiServiceModel
+    auth: requires tenant token
+    summary: update_model
+  - id: content_generation.create_collection
+    path: /v1/content_generation_collections
+    methods:
+    - POST
+    returns: ContentGenerationCollection
+    auth: requires tenant token
+    summary: create_collection
+  - id: content_generation.list_all_collections
+    path: /v1/content_generation_collections
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: list_all_collections
+  - id: content_generation.delete_collection
+    path: /v1/content_generation_collections/<collection_id:int>
+    methods:
+    - DELETE
+    returns: ContentGenerationCollection
+    auth: requires tenant token
+    summary: delete_collection
+  - id: content_generation.get_collection
+    path: /v1/content_generation_collections/<collection_id:int>
+    methods:
+    - GET
+    returns: ContentGenerationCollection
+    auth: requires tenant token
+    summary: get_collection
+  - id: content_generation.update_collection
+    path: /v1/content_generation_collections/<collection_id:int>
+    methods:
+    - PATCH
+    returns: ContentGenerationCollection
+    auth: requires tenant token
+    summary: update_collection
+  - id: content_generation.add_collection_comment
+    path: /v1/content_generation_collections/<collection_id:int>/comments
+    methods:
+    - POST
+    returns: Comment
+    auth: requires tenant token
+    summary: add_collection_comment
+  - id: content_generation.get_collection_comments
+    path: /v1/content_generation_collections/<collection_id:int>/comments
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_collection_comments
+  - id: content_generation.list_all_executions
+    path: /v1/content_generation_collections/<collection_id:int>/executions
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: list_all_executions
+  - id: content_generation.add_collection_rating
+    path: /v1/content_generation_collections/<collection_id:int>/ratings
+    methods:
+    - POST
+    returns: Rating
+    auth: requires tenant token
+    summary: add_collection_rating
+  - id: content_generation.get_collection_ratings
+    path: /v1/content_generation_collections/<collection_id:int>/ratings
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_collection_ratings
+  - id: content_generation.create_example_set
+    path: /v1/content_generation_example_sets
+    methods:
+    - POST
+    returns: AiServiceConnection
+    auth: requires tenant token
+    summary: create_example_set
+  - id: content_generation.list_all_example_sets
+    path: /v1/content_generation_example_sets
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: list_all_example_sets
+  - id: content_generation.delete_example_set
+    path: /v1/content_generation_example_sets/<example_set_id:int>
+    methods:
+    - DELETE
+    returns: ContentGenerationExampleSet
+    auth: requires tenant token
+    summary: delete_example_set
+  - id: content_generation.get_example_set
+    path: /v1/content_generation_example_sets/<example_set_id:int>
+    methods:
+    - GET
+    returns: ContentGenerationExampleSet
+    auth: requires tenant token
+    summary: get_example_set
+  - id: content_generation.update_example_set
+    path: /v1/content_generation_example_sets/<example_set_id:int>
+    methods:
+    - PATCH
+    returns: ContentGenerationExampleSet
+    auth: requires tenant token
+    summary: update_example_set
+  - id: content_generation.get_example_set_result_view
+    path: /v1/content_generation_example_sets/<example_set_id:int>/results
+    methods:
+    - GET
+    returns: ContentGenerationExampleSetResultView
+    auth: requires tenant token
+    summary: get_example_set_result_view
+  - id: content_generation.remove_example_set_result_link_bulk
+    path: /v1/content_generation_example_sets/<example_set_id:int>/results
+    methods:
+    - POST
+    returns: ContentGenerationExampleSet
+    auth: requires tenant token
+    summary: remove_example_set_result_link_bulk
+  - id: content_generation.add_example_set_result_link
+    path: /v1/content_generation_example_sets/<example_set_id:int>/results/<result_id:int>
+    methods:
+    - POST
+    returns: ContentGenerationExampleSet
+    auth: requires tenant token
+    summary: add_example_set_result_link
+  - id: content_generation.remove_example_set_result_link
+    path: /v1/content_generation_example_sets/<example_set_id:int>/results/<result_id:int>
+    methods:
+    - DELETE
+    returns: ContentGenerationExampleSet
+    auth: requires tenant token
+    summary: remove_example_set_result_link
+  - id: content_generation.create_execution
+    path: /v1/content_generation_executions
+    methods:
+    - POST
+    returns: ContentGenerationExecution
+    auth: requires tenant token
+    summary: create_execution
+  - id: content_generation.list_all_executions
+    path: /v1/content_generation_executions
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: list_all_executions
+  - id: content_generation.delete_execution
+    path: /v1/content_generation_executions/<execution_id:int>
+    methods:
+    - DELETE
+    returns: ContentGenerationExecution
+    auth: requires tenant token
+    summary: delete_execution
+  - id: content_generation.get_execution
+    path: /v1/content_generation_executions/<execution_id:int>
+    methods:
+    - GET
+    returns: ContentGenerationExecution
+    auth: requires tenant token
+    summary: get_execution
+  - id: content_generation.update_execution
+    path: /v1/content_generation_executions/<execution_id:int>
+    methods:
+    - PATCH
+    returns: ContentGenerationExecution
+    auth: requires tenant token
+    summary: update_execution
+  - id: content_generation.add_execution_comment
+    path: /v1/content_generation_executions/<execution_id:int>/comments
+    methods:
+    - POST
+    returns: Comment
+    auth: requires tenant token
+    summary: add_execution_comment
+  - id: content_generation.get_execution_comments
+    path: /v1/content_generation_executions/<execution_id:int>/comments
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_execution_comments
+  - id: content_generation.add_execution_rating
+    path: /v1/content_generation_executions/<execution_id:int>/ratings
+    methods:
+    - POST
+    returns: Rating
+    auth: requires tenant token
+    summary: add_execution_rating
+  - id: content_generation.get_execution_ratings
+    path: /v1/content_generation_executions/<execution_id:int>/ratings
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_execution_ratings
+  - id: content_generation.create_result
+    path: /v1/content_generation_executions/<execution_id:int>/results
+    methods:
+    - POST
+    returns: ContentGenerationResult
+    auth: requires tenant token
+    summary: create_result
+  - id: content_generation.list_all_results
+    path: /v1/content_generation_executions/<execution_id:int>/results
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: list_all_results
+  - id: content_generation.list_all_results
+    path: /v1/content_generation_results
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: list_all_results
+  - id: content_generation.delete_result
+    path: /v1/content_generation_results/<result_id:int>
+    methods:
+    - DELETE
+    returns: ContentGenerationResult
+    auth: requires tenant token
+    summary: delete_result
+  - id: content_generation.get_result
+    path: /v1/content_generation_results/<result_id:int>
+    methods:
+    - GET
+    returns: ContentGenerationResult
+    auth: requires tenant token
+    summary: get_result
+  - id: content_generation.add_result_comment
+    path: /v1/content_generation_results/<result_id:int>/comments
+    methods:
+    - POST
+    returns: Comment
+    auth: requires tenant token
+    summary: add_result_comment
+  - id: content_generation.get_result_comments
+    path: /v1/content_generation_results/<result_id:int>/comments
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_result_comments
+  - id: content_generation.add_result_rating
+    path: /v1/content_generation_results/<result_id:int>/ratings
+    methods:
+    - POST
+    returns: Rating
+    auth: requires tenant token
+    summary: add_result_rating
+  - id: content_generation.get_result_ratings
+    path: /v1/content_generation_results/<result_id:int>/ratings
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_result_ratings
+  - id: content_generation.update_usage_data
+    path: /v1/content_generation_results/<result_id:int>/usage
+    methods:
+    - POST
+    returns: ContentGenerationResult
+    auth: requires tenant token
+    summary: update_usage_data
+  - id: content_generation.create_execution
+    path: /v1/fine_tuning_executions
+    methods:
+    - POST
+    returns: FineTuningExecution
+    auth: requires tenant token
+    summary: create_execution
+  - id: content_generation.list_all_executions
+    path: /v1/fine_tuning_executions
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: list_all_executions
+  - id: content_generation.delete_execution
+    path: /v1/fine_tuning_executions/<execution_id:int>
+    methods:
+    - DELETE
+    returns: FineTuningExecution
+    auth: requires tenant token
+    summary: delete_execution
+  - id: content_generation.get_execution
+    path: /v1/fine_tuning_executions/<execution_id:int>
+    methods:
+    - GET
+    returns: FineTuningExecution
+    auth: requires tenant token
+    summary: get_execution
+  - id: content_generation.update_execution
+    path: /v1/fine_tuning_executions/<execution_id:int>
+    methods:
+    - PATCH
+    returns: FineTuningExecution
+    auth: requires tenant token
+    summary: update_execution
+- name: default
+  route_count: 2
+  routes:
+  - id: default.index
+    path: /
+    methods:
+    - HEAD
+    returns: '`HTML`'
+    auth: null
+    summary: index
+  - id: default.show_favicon
+    path: /favicon.ico
+    methods:
+    - HEAD
+    - GET
+    returns: '`FavIcon`'
+    auth: null
+    summary: show_favicon
+- name: deployment
+  route_count: 12
+  routes:
+  - id: deployment.create
+    path: /v1/deploy
+    methods:
+    - POST
+    returns: Deployment
+    auth: requires tenant token
+    summary: create
+  - id: deployment.create
+    path: /v1/deployment
+    methods:
+    - POST
+    returns: Deployment
+    auth: requires tenant token
+    summary: create
+  - id: deployment.delete
+    path: /v1/deployment/<deployment_id:int>
+    methods:
+    - DELETE
+    returns: Deployment
+    auth: requires tenant token
+    summary: delete
+  - id: deployment.get
+    path: /v1/deployment/<deployment_id:int>
+    methods:
+    - GET
+    returns: Deployment
+    auth: requires tenant token
+    summary: get
+  - id: deployment.update
+    path: /v1/deployment/<deployment_id:int>
+    methods:
+    - PATCH
+    returns: Deployment
+    auth: requires tenant token
+    summary: update
+  - id: deployment.abort
+    path: /v1/deployment/<deployment_id:int>/cancel
+    methods:
+    - POST
+    returns: Deployment
+    auth: requires tenant token
+    summary: abort
+  - id: deployment.list_deployment_invocations
+    path: /v1/deployment/<deployment_id:int>/invocations
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: list_deployment_invocations
+  - id: deployment.redeploy
+    path: /v1/deployment/<deployment_id:int>/redeploy
+    methods:
+    - POST
+    returns: Deployment
+    auth: requires tenant token
+    summary: redeploy
+  - id: deployment.list_all
+    path: /v1/deployments
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: list_all
+  - id: deployment.create
+    path: /v1/job/<job_id:int>/deploy
+    methods:
+    - POST
+    returns: Deployment
+    auth: requires tenant token
+    summary: create
+  - id: deployment.create
+    path: /v1/job/<job_id:int>/deployment
+    methods:
+    - POST
+    returns: Deployment
+    auth: requires tenant token
+    summary: create
+  - id: deployment.deploy_project
+    path: /v1/projects/<project_id:int>/deploy
+    methods:
+    - POST
+    returns: Deployment
+    auth: requires tenant token
+    summary: deploy_project
+- name: deployment_invokation
+  route_count: 1
+  routes:
+  - id: deployment_invokation.create_invocation
+    path: /v1/invocations
+    methods:
+    - POST
+    returns: DeploymentInvokation
+    auth: requires tenant token
+    summary: create_invocation
+- name: folder
+  route_count: 16
+  routes:
+  - id: folder.get_folder_roles
+    path: /v1/folder_roles
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_folder_roles
+  - id: folder.delete_folder_role
+    path: /v1/folder_roles/<role_id:int>
+    methods:
+    - DELETE
+    returns: FolderRole
+    auth: requires tenant token
+    summary: delete_folder_role
+  - id: folder.get_folder_role
+    path: /v1/folder_roles/<role_id:int>
+    methods:
+    - GET
+    returns: FolderRole
+    auth: requires tenant token
+    summary: get_folder_role
+  - id: folder.update_folder_role
+    path: /v1/folder_roles/<role_id:int>
+    methods:
+    - PATCH
+    returns: FolderRole
+    auth: requires tenant token
+    summary: update_folder_role
+  - id: folder.create_folder
+    path: /v1/folders
+    methods:
+    - POST
+    returns: Folder
+    auth: requires tenant token
+    summary: create_folder
+  - id: folder.get_folders
+    path: /v1/folders
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_folders
+  - id: folder.add_content_to_folder
+    path: /v1/folders/<folder_id:int>
+    methods:
+    - POST
+    returns: Folder
+    auth: requires tenant token
+    summary: add_content_to_folder
+  - id: folder.delete_folder
+    path: /v1/folders/<folder_id:int>
+    methods:
+    - DELETE
+    returns: Folder
+    auth: requires tenant token
+    summary: delete_folder
+  - id: folder.get_folder
+    path: /v1/folders/<folder_id:int>
+    methods:
+    - GET
+    returns: Folder
+    auth: requires tenant token
+    summary: get_folder
+  - id: folder.update_folder
+    path: /v1/folders/<folder_id:int>
+    methods:
+    - PATCH
+    returns: Folder
+    auth: requires tenant token
+    summary: update_folder
+  - id: folder.get_folder_blueprints
+    path: /v1/folders/<folder_id:int>/blueprints
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_folder_blueprints
+  - id: folder.get_folder_projects
+    path: /v1/folders/<folder_id:int>/projects
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_folder_projects
+  - id: folder.create_folder_role
+    path: /v1/folders/<folder_id:int>/roles
+    methods:
+    - POST
+    returns: FolderRole
+    auth: requires tenant token
+    summary: create_folder_role
+  - id: folder.get_folder_roles
+    path: /v1/folders/<folder_id:int>/roles
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_folder_roles
+  - id: folder.get_folder_source_summaries
+    path: /v1/folders/<folder_id:int>/source_summaries
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_folder_source_summaries
+  - id: folder.get_folder_training_data
+    path: /v1/folders/<folder_id:int>/training_data
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_folder_training_data
+- name: jobs
+  route_count: 13
+  routes:
+  - id: jobs.list_all
+    path: /v1/accounts/<account_id:int>/jobs
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: list_all
+  - id: jobs.create
+    path: /v1/job
+    methods:
+    - POST
+    returns: ModelTrainingJob
+    auth: requires tenant token
+    summary: create
+  - id: jobs.list_all
+    path: /v1/job
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: list_all
+  - id: jobs.delete
+    path: /v1/job/<job_id:int>
+    methods:
+    - DELETE
+    returns: ModelTrainingJob
+    auth: requires tenant token
+    summary: delete
+  - id: jobs.get
+    path: /v1/job/<job_id:int>
+    methods:
+    - GET
+    returns: Annotated
+    auth: requires tenant token
+    summary: get
+  - id: jobs.update
+    path: /v1/job/<job_id:int>
+    methods:
+    - PATCH
+    returns: ModelTrainingJob
+    auth: requires tenant token
+    summary: update
+  - id: jobs.abort
+    path: /v1/job/<job_id:int>/cancel
+    methods:
+    - POST
+    returns: Annotated
+    auth: requires tenant token
+    summary: abort
+  - id: jobs.debug
+    path: /v1/job/<job_id:int>/debug
+    methods:
+    - GET
+    returns: Annotated
+    auth: requires tenant token
+    summary: debug
+  - id: jobs.list_runs_by_job
+    path: /v1/job/<job_id:int>/models
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: list_runs_by_job
+  - id: jobs.list_runs_by_job
+    path: /v1/job/<job_id:int>/runs
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: list_runs_by_job
+  - id: jobs.create
+    path: /v1/jobs
+    methods:
+    - POST
+    returns: ModelTrainingJob
+    auth: requires tenant token
+    summary: create
+  - id: jobs.list_all
+    path: /v1/jobs
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: list_all
+  - id: jobs.list_by_tag
+    path: /v1/jobs/by/<tag_name:string>
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: list_by_tag
+- name: language_model_artifact
+  route_count: 10
+  routes:
+  - id: language_model_artifact.create
+    path: /v1/account/<account_id:int>/artifacts
+    methods:
+    - POST
+    returns: LanguageModelArtifact
+    auth: requires tenant token
+    summary: create
+  - id: language_model_artifact.list_all
+    path: /v1/language_model_artifacts
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: list_all
+  - id: language_model_artifact.delete
+    path: /v1/language_model_artifacts/<artifact_id:int>
+    methods:
+    - DELETE
+    returns: LanguageModelArtifact
+    auth: requires tenant token
+    summary: delete
+  - id: language_model_artifact.get
+    path: /v1/language_model_artifacts/<artifact_id:int>
+    methods:
+    - GET
+    returns: LanguageModelArtifact
+    auth: requires tenant token
+    summary: get
+  - id: language_model_artifact.update
+    path: /v1/language_model_artifacts/<artifact_id:int>
+    methods:
+    - PATCH
+    returns: LanguageModelArtifact
+    auth: requires tenant token
+    summary: update
+  - id: language_model_artifact.add_artifact_comment
+    path: /v1/language_model_artifacts/<artifact_id:int>/comments
+    methods:
+    - POST
+    returns: list
+    auth: requires tenant token
+    summary: add_artifact_comment
+  - id: language_model_artifact.get_training_data_comments
+    path: /v1/language_model_artifacts/<artifact_id:int>/comments
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_training_data_comments
+  - id: language_model_artifact.add_artifacts_rating
+    path: /v1/language_model_artifacts/<artifact_id:int>/ratings
+    methods:
+    - POST
+    returns: list
+    auth: requires tenant token
+    summary: add_artifacts_rating
+  - id: language_model_artifact.get_artifacts_ratings
+    path: /v1/language_model_artifacts/<artifact_id:int>/ratings
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_artifacts_ratings
+  - id: language_model_artifact.add_artifacts_upload
+    path: /v1/language_model_artifacts/<artifact_id:int>/uploads
+    methods:
+    - POST
+    returns: PresignedURL
+    auth: requires tenant token
+    summary: add_artifacts_upload
+- name: licensing
+  route_count: 2
+  routes:
+  - id: licensing.create
+    path: /v1/licensing
+    methods:
+    - POST
+    returns: Annotated
+    auth: requires tenant token
+    summary: create
+  - id: licensing.list_all
+    path: /v1/licensing
+    methods:
+    - GET
+    returns: Annotated
+    auth: requires tenant token
+    summary: list_all
+- name: login
+  route_count: 20
+  routes:
+  - id: login.login_user
+    path: /v1/login
+    methods:
+    - POST
+    returns: ProvisionalLoginRequest
+    auth: null
+    summary: login_user
+  - id: login.handle_activate_user
+    path: /v1/login/<token:str>/activate
+    methods:
+    - HEAD
+    - GET
+    returns: Annotated
+    auth: null
+    summary: handle_activate_user
+  - id: login.handle_deactivate_user
+    path: /v1/login/<token:str>/deactivate
+    methods:
+    - HEAD
+    - GET
+    returns: Annotated
+    auth: null
+    summary: handle_deactivate_user
+  - id: login.reset_user
+    path: /v1/login/<token:str>/reset
+    methods:
+    - POST
+    returns: Annotated
+    auth: null
+    summary: reset_user
+  - id: login.on_azure_authorized_get
+    path: /v1/login/azure/authorized
+    methods:
+    - GET
+    returns: Annotated
+    auth: null
+    summary: on_azure_authorized_get
+  - id: login.on_azure_authorized_post
+    path: /v1/login/azure/authorized
+    methods:
+    - POST
+    returns: null
+    auth: null
+    summary: on_azure_authorized_post
+  - id: login.service_provider_initiated_login
+    path: /v1/login/by/<tenant_id:int>/via/<key:str>
+    methods:
+    - POST
+    returns: '`AuthNRedirect`'
+    auth: null
+    summary: service_provider_initiated_login
+  - id: login.create_user
+    path: /v1/login/create
+    methods:
+    - POST
+    returns: NewlyCreatedUser
+    auth: null
+    summary: create_user
+  - id: login.create_bulk_users
+    path: /v1/login/create_bulk
+    methods:
+    - POST
+    returns: Annotated
+    auth: requires tenant token
+    summary: create_bulk_users
+  - id: login.iap_initiated
+    path: /v1/login/iap
+    methods:
+    - GET
+    returns: Annotated
+    auth: null
+    summary: iap_initiated
+  - id: login.oauth2_reply
+    path: /v1/login/oauth2-reply
+    methods:
+    - GET
+    returns: '`AuthorizedUIRedirect`'
+    auth: null
+    summary: oauth2_reply
+  - id: login.check_password
+    path: /v1/login/password
+    methods:
+    - POST
+    returns: UserSession
+    auth: null
+    summary: check_password
+  - id: login.create_reset_user_request
+    path: /v1/login/reset
+    methods:
+    - POST
+    returns: Annotated
+    auth: null
+    summary: create_reset_user_request
+  - id: login.saml_reply
+    path: /v1/login/saml-reply
+    methods:
+    - POST
+    returns: '`AuthorizedUIRedirect`'
+    auth: null
+    summary: saml_reply
+  - id: login.logout
+    path: /v1/logout
+    methods:
+    - POST
+    returns: Annotated
+    auth: requires user token
+    summary: logout
+  - id: login.service_provider_initiated_logout_reply
+    path: /v1/logout/saml-reply
+    methods:
+    - POST
+    returns: null
+    auth: null
+    summary: service_provider_initiated_logout_reply
+  - id: login.create_lookup_token
+    path: /v1/lookup-token
+    methods:
+    - POST
+    returns: Annotated
+    auth: requires tenant token
+    summary: create_lookup_token
+  - id: login.validate_lookup_token
+    path: /v1/lookup-token/validate
+    methods:
+    - POST
+    returns: Annotated
+    auth: null
+    summary: validate_lookup_token
+  - id: login.renew_user_token
+    path: /v1/renew/login
+    methods:
+    - POST
+    returns: UserSession
+    auth: requires user token
+    summary: renew_user_token
+  - id: login.get_sso_redirect
+    path: /v1/ssoRedirect
+    methods:
+    - GET
+    returns: Annotated
+    auth: requires tenant token
+    summary: get_sso_redirect
+- name: marketplace
+  route_count: 11
+  routes:
+  - id: marketplace.get
+    path: /v1/marketplace/<marketplace_id:int>
+    methods:
+    - GET
+    returns: Marketplace
+    auth: requires tenant token
+    summary: get
+  - id: marketplace.update
+    path: /v1/marketplace/<marketplace_id:int>
+    methods:
+    - PATCH
+    returns: Marketplace
+    auth: requires tenant token
+    summary: update
+  - id: marketplace.create_new_offer
+    path: /v1/marketplace/<marketplace_id:int>/offers
+    methods:
+    - POST
+    returns: Offer
+    auth: requires tenant token
+    summary: create_new_offer
+  - id: marketplace.list_offers
+    path: /v1/marketplace/<marketplace_id:int>/offers
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: list_offers
+  - id: marketplace.list_purchased_by_marketplace
+    path: /v1/marketplace/<marketplace_id:int>/purchased
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: list_purchased_by_marketplace
+  - id: marketplace.create
+    path: /v1/marketplaces
+    methods:
+    - POST
+    returns: Marketplace
+    auth: requires tenant token
+    summary: create
+  - id: marketplace.list_all
+    path: /v1/marketplaces
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: list_all
+  - id: marketplace.archive_offer
+    path: /v1/offer/<offer_id:int>
+    methods:
+    - DELETE
+    returns: Offer
+    auth: requires tenant token
+    summary: archive_offer
+  - id: marketplace.update_offer
+    path: /v1/offer/<offer_id:int>
+    methods:
+    - PATCH
+    returns: Offer
+    auth: requires tenant token
+    summary: update_offer
+  - id: marketplace.purchase_offer
+    path: /v1/offer/<offer_id:int>/buy
+    methods:
+    - POST
+    returns: Offer
+    auth: requires tenant token
+    summary: purchase_offer
+  - id: marketplace.get_purchase
+    path: /v1/purchased/<purchase_id:int>
+    methods:
+    - GET
+    returns: PurchasedOffer
+    auth: requires tenant token
+    summary: get_purchase
+- name: model
+  route_count: 8
+  routes:
+  - id: model.download_intern_models
+    path: /v1/intern_model/<model_name:[0-9a-zA-z][0-9a-zA-z\-\.\_]*\/?[0-9a-zA-z][0-9a-zA-z\-\.\_]+>
+    methods:
+    - GET
+    returns: dict
+    auth: requires tenant token
+    summary: download_intern_models
+  - id: model.download_intern_models
+    path: /v1/intern_models
+    methods:
+    - GET
+    returns: dict
+    auth: requires tenant token
+    summary: download_intern_models
+  - id: model.list_all
+    path: /v1/model
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: list_all
+  - id: model.delete
+    path: /v1/model/<model_id:int>
+    methods:
+    - DELETE
+    returns: Model
+    auth: requires tenant token
+    summary: delete
+  - id: model.update
+    path: /v1/model/<model_id:int>
+    methods:
+    - PATCH
+    returns: Model
+    auth: requires tenant token
+    summary: update
+  - id: model.create
+    path: /v1/models
+    methods:
+    - POST
+    returns: NewModel
+    auth: requires tenant token
+    summary: create
+  - id: model.list_all
+    path: /v1/models
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: list_all
+  - id: model.mass_update
+    path: /v1/models
+    methods:
+    - PATCH
+    returns: tuple
+    auth: requires tenant token
+    summary: mass_update
+- name: presign
+  route_count: 1
+  routes:
+  - id: presign.presign_api_request
+    path: /v1/generate_presigned_url
+    methods:
+    - POST
+    - PATCH
+    - DELETE
+    - PUT
+    - GET
+    returns: str
+    auth: requires tenant token
+    summary: presign_api_request
+- name: project
+  route_count: 95
+  routes:
+  - id: project.get_project_monitor_snapshots
+    path: /v1/project_monitor_snapshots
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_monitor_snapshots
+  - id: project.get_project_monitors
+    path: /v1/project_monitors
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_monitors
+  - id: project.delete_project_monitor
+    path: /v1/project_monitors/<monitor_id:int>
+    methods:
+    - DELETE
+    returns: ProjectMonitor
+    auth: requires tenant token
+    summary: delete_project_monitor
+  - id: project.get_project_monitor
+    path: /v1/project_monitors/<monitor_id:int>
+    methods:
+    - GET
+    returns: ProjectMonitor
+    auth: requires tenant token
+    summary: get_project_monitor
+  - id: project.update_project_monitor
+    path: /v1/project_monitors/<monitor_id:int>
+    methods:
+    - PATCH
+    returns: ProjectMonitor
+    auth: requires tenant token
+    summary: update_project_monitor
+  - id: project.get_project_roles
+    path: /v1/project_roles
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_roles
+  - id: project.delete_project_role
+    path: /v1/project_roles/<role_id:int>
+    methods:
+    - DELETE
+    returns: ProjectRole
+    auth: requires tenant token
+    summary: delete_project_role
+  - id: project.get_project_role
+    path: /v1/project_roles/<role_id:int>
+    methods:
+    - GET
+    returns: ProjectRole
+    auth: requires tenant token
+    summary: get_project_role
+  - id: project.update_project_role
+    path: /v1/project_roles/<role_id:int>
+    methods:
+    - PATCH
+    returns: ProjectRole
+    auth: requires tenant token
+    summary: update_project_role
+  - id: project.create_project_scenario_segment_assumption
+    path: /v1/project_scenario/<scenario_id:int>/segments/<project_segment_id:int>/assumptions
+    methods:
+    - POST
+    returns: ProjectSegment
+    auth: requires tenant token
+    summary: create_project_scenario_segment_assumption
+  - id: project.add_project_scenario_segment_assumption
+    path: /v1/project_scenario/<scenario_id:int>/segments/<project_segment_id:int>/assumptions/<assumption_id:int>
+    methods:
+    - POST
+    returns: ProjectSegment
+    auth: requires tenant token
+    summary: add_project_scenario_segment_assumption
+  - id: project.remove_project_scenario_segment_assumption
+    path: /v1/project_scenario/<scenario_id:int>/segments/<project_segment_id:int>/assumptions/<assumption_id:int>
+    methods:
+    - DELETE
+    returns: ProjectSegment
+    auth: requires tenant token
+    summary: remove_project_scenario_segment_assumption
+  - id: project.get_project_scenarios
+    path: /v1/project_scenarios
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_scenarios
+  - id: project.add_project_scenario_comment
+    path: /v1/project_scenarios/<project_scenario_id:int>/comments
+    methods:
+    - POST
+    returns: list
+    auth: requires tenant token
+    summary: add_project_scenario_comment
+  - id: project.get_project_scenario_comments
+    path: /v1/project_scenarios/<project_scenario_id:int>/comments
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_scenario_comments
+  - id: project.add_project_scenario_rating
+    path: /v1/project_scenarios/<project_scenario_id:int>/ratings
+    methods:
+    - POST
+    returns: list
+    auth: requires tenant token
+    summary: add_project_scenario_rating
+  - id: project.get_project_scenario_ratings
+    path: /v1/project_scenarios/<project_scenario_id:int>/ratings
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_scenario_ratings
+  - id: project.delete_project_scenario
+    path: /v1/project_scenarios/<scenario_id:int>
+    methods:
+    - DELETE
+    returns: ProjectScenario
+    auth: requires tenant token
+    summary: delete_project_scenario
+  - id: project.get_project_scenario
+    path: /v1/project_scenarios/<scenario_id:int>
+    methods:
+    - GET
+    returns: ProjectScenario
+    auth: requires tenant token
+    summary: get_project_scenario
+  - id: project.update_project_scenario
+    path: /v1/project_scenarios/<scenario_id:int>
+    methods:
+    - PATCH
+    returns: ProjectScenario
+    auth: requires tenant token
+    summary: update_project_scenario
+  - id: project.create_project_scenario_segment
+    path: /v1/project_scenarios/<scenario_id:int>/segments
+    methods:
+    - POST
+    returns: ProjectSegment
+    auth: requires tenant token
+    summary: create_project_scenario_segment
+  - id: project.get_project_segment_assumptions
+    path: /v1/project_segment_assumptions
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_segment_assumptions
+  - id: project.delete_project_segment_assumption
+    path: /v1/project_segment_assumptions/<project_segment_assumption_id:int>
+    methods:
+    - DELETE
+    returns: ProjectSegmentAssumption
+    auth: requires tenant token
+    summary: delete_project_segment_assumption
+  - id: project.get_project_segment_assumption
+    path: /v1/project_segment_assumptions/<project_segment_assumption_id:int>
+    methods:
+    - GET
+    returns: ProjectSegmentAssumption
+    auth: requires tenant token
+    summary: get_project_segment_assumption
+  - id: project.patch_project_segment_assumption
+    path: /v1/project_segment_assumptions/<project_segment_assumption_id:int>
+    methods:
+    - PATCH
+    returns: ProjectSegmentAssumption
+    auth: requires tenant token
+    summary: patch_project_segment_assumption
+  - id: project.add_project_segment_assumption_comment
+    path: /v1/project_segment_assumptions/<project_segment_assumption_id:int>/comments
+    methods:
+    - POST
+    returns: list
+    auth: requires tenant token
+    summary: add_project_segment_assumption_comment
+  - id: project.get_project_segment_assumption_comments
+    path: /v1/project_segment_assumptions/<project_segment_assumption_id:int>/comments
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_segment_assumption_comments
+  - id: project.add_project_segment_assumption_rating
+    path: /v1/project_segment_assumptions/<project_segment_assumption_id:int>/ratings
+    methods:
+    - POST
+    returns: list
+    auth: requires tenant token
+    summary: add_project_segment_assumption_rating
+  - id: project.get_project_segment_assumption_ratings
+    path: /v1/project_segment_assumptions/<project_segment_assumption_id:int>/ratings
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_segment_assumption_ratings
+  - id: project.get_project_segment_jobs
+    path: /v1/project_segment_jobs
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_segment_jobs
+  - id: project.delete_project_segment_job
+    path: /v1/project_segment_jobs/<project_segment_job_id:int>
+    methods:
+    - DELETE
+    returns: ProjectSegmentJob
+    auth: requires tenant token
+    summary: delete_project_segment_job
+  - id: project.get_project_segment_job
+    path: /v1/project_segment_jobs/<project_segment_job_id:int>
+    methods:
+    - GET
+    returns: ProjectSegmentJob
+    auth: requires tenant token
+    summary: get_project_segment_job
+  - id: project.patch_project_segment_job
+    path: /v1/project_segment_jobs/<project_segment_job_id:int>
+    methods:
+    - PATCH
+    returns: ProjectSegmentJob
+    auth: requires tenant token
+    summary: patch_project_segment_job
+  - id: project.get_project_segment_monitors
+    path: /v1/project_segment_monitors
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_segment_monitors
+  - id: project.delete_project_segment_monitor
+    path: /v1/project_segment_monitors/<project_segment_monitor_id:int>
+    methods:
+    - DELETE
+    returns: ProjectSegmentMonitor
+    auth: requires tenant token
+    summary: delete_project_segment_monitor
+  - id: project.get_project_segment_monitor
+    path: /v1/project_segment_monitors/<project_segment_monitor_id:int>
+    methods:
+    - GET
+    returns: ProjectSegmentMonitor
+    auth: requires tenant token
+    summary: get_project_segment_monitor
+  - id: project.patch_project_segment_monitor
+    path: /v1/project_segment_monitors/<project_segment_monitor_id:int>
+    methods:
+    - PATCH
+    returns: ProjectSegmentMonitor
+    auth: requires tenant token
+    summary: patch_project_segment_monitor
+  - id: project.get_project_segment_roles
+    path: /v1/project_segment_roles
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_segment_roles
+  - id: project.delete_project_segment_role
+    path: /v1/project_segment_roles/<project_segment_role_id:int>
+    methods:
+    - DELETE
+    returns: ProjectSegmentRole
+    auth: requires tenant token
+    summary: delete_project_segment_role
+  - id: project.get_project_segment_role
+    path: /v1/project_segment_roles/<project_segment_role_id:int>
+    methods:
+    - GET
+    returns: ProjectSegmentRole
+    auth: requires tenant token
+    summary: get_project_segment_role
+  - id: project.update_project_segment_role
+    path: /v1/project_segment_roles/<project_segment_role_id:int>
+    methods:
+    - PATCH
+    returns: ProjectSegmentRole
+    auth: requires tenant token
+    summary: update_project_segment_role
+  - id: project.get_project_segment_user_monitors
+    path: /v1/project_segment_user_monitors
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_segment_user_monitors
+  - id: project.delete_project_segment_user_monitor
+    path: /v1/project_segment_user_monitors/<project_segment_user_monitor_id:int>
+    methods:
+    - DELETE
+    returns: ProjectSegmentMonitor
+    auth: requires tenant token
+    summary: delete_project_segment_user_monitor
+  - id: project.get_project_segment_user_monitor
+    path: /v1/project_segment_user_monitors/<project_segment_user_monitor_id:int>
+    methods:
+    - GET
+    returns: ProjectSegmentMonitor
+    auth: requires tenant token
+    summary: get_project_segment_user_monitor
+  - id: project.patch_project_segment_user_monitor
+    path: /v1/project_segment_user_monitors/<project_segment_user_monitor_id:int>
+    methods:
+    - PATCH
+    returns: ProjectSegmentMonitor
+    auth: requires tenant token
+    summary: patch_project_segment_user_monitor
+  - id: project.get_project_segments
+    path: /v1/project_segments
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_segments
+  - id: project.delete_project_segment
+    path: /v1/project_segments/<project_segment_id:int>
+    methods:
+    - DELETE
+    returns: ProjectSegment
+    auth: requires tenant token
+    summary: delete_project_segment
+  - id: project.get_project_segment
+    path: /v1/project_segments/<project_segment_id:int>
+    methods:
+    - GET
+    returns: ProjectSegment
+    auth: requires tenant token
+    summary: get_project_segment
+  - id: project.update_project_segment
+    path: /v1/project_segments/<project_segment_id:int>
+    methods:
+    - PATCH
+    returns: ProjectSegment
+    auth: requires tenant token
+    summary: update_project_segment
+  - id: project.create_project_segment_assumption
+    path: /v1/project_segments/<project_segment_id:int>/assumptions
+    methods:
+    - POST
+    returns: ProjectSegmentAssumption
+    auth: requires tenant token
+    summary: create_project_segment_assumption
+  - id: project.get_project_segment_assumptions
+    path: /v1/project_segments/<project_segment_id:int>/assumptions
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_segment_assumptions
+  - id: project.update_project_segment_feedback
+    path: /v1/project_segments/<project_segment_id:int>/feedback
+    methods:
+    - POST
+    returns: ProjectSegmentMonitor
+    auth: requires tenant token
+    summary: update_project_segment_feedback
+  - id: project.create_project_segment_job
+    path: /v1/project_segments/<project_segment_id:int>/jobs
+    methods:
+    - POST
+    returns: ProjectSegmentJob
+    auth: requires tenant token
+    summary: create_project_segment_job
+  - id: project.get_project_segment_jobs
+    path: /v1/project_segments/<project_segment_id:int>/jobs
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_segment_jobs
+  - id: project.create_project_segment_monitor
+    path: /v1/project_segments/<project_segment_id:int>/monitors
+    methods:
+    - POST
+    returns: ProjectSegmentMonitor
+    auth: requires tenant token
+    summary: create_project_segment_monitor
+  - id: project.get_project_segment_monitors
+    path: /v1/project_segments/<project_segment_id:int>/monitors
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_segment_monitors
+  - id: project.create_project_segment_role
+    path: /v1/project_segments/<project_segment_id:int>/roles
+    methods:
+    - POST
+    returns: list
+    auth: requires tenant token
+    summary: create_project_segment_role
+  - id: project.get_project_segment_roles
+    path: /v1/project_segments/<project_segment_id:int>/roles
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_segment_roles
+  - id: project.create_project_segment_task
+    path: /v1/project_segments/<project_segment_id:int>/tasks
+    methods:
+    - POST
+    returns: ProjectSegment
+    auth: requires tenant token
+    summary: create_project_segment_task
+  - id: project.add_project_segment_task
+    path: /v1/project_segments/<project_segment_id:int>/tasks/<task_id:int>
+    methods:
+    - POST
+    returns: ProjectSegment
+    auth: requires tenant token
+    summary: add_project_segment_task
+  - id: project.remove_project_segment_task
+    path: /v1/project_segments/<project_segment_id:int>/tasks/<task_id:int>
+    methods:
+    - DELETE
+    returns: ProjectSegment
+    auth: requires tenant token
+    summary: remove_project_segment_task
+  - id: project.update_user_project_segment_feedback
+    path: /v1/project_segments/<project_segment_id:int>/users/<user_id:int>/feedback
+    methods:
+    - POST
+    returns: ProjectSegmentMonitor
+    auth: requires tenant token
+    summary: update_user_project_segment_feedback
+  - id: project.create_project_segment_user_monitor
+    path: /v1/project_segments/<project_segment_id:int>/users/<user_id:int>/monitors
+    methods:
+    - POST
+    returns: ProjectSegmentMonitor
+    auth: requires tenant token
+    summary: create_project_segment_user_monitor
+  - id: project.get_project_segment_user_monitors
+    path: /v1/project_segments/<project_segment_id:int>/users/<user_id:int>/monitors
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_segment_user_monitors
+  - id: project.create_project_task
+    path: /v1/project_tasks
+    methods:
+    - POST
+    returns: ProjectTask
+    auth: requires tenant token
+    summary: create_project_task
+  - id: project.get_project_tasks
+    path: /v1/project_tasks
+    methods:
+    - GET
+    returns: ProjectTask
+    auth: requires tenant token
+    summary: get_project_tasks
+  - id: project.add_project_task_comment
+    path: /v1/project_tasks/<project_task_id:int>/comments
+    methods:
+    - POST
+    returns: list
+    auth: requires tenant token
+    summary: add_project_task_comment
+  - id: project.get_project_task_comments
+    path: /v1/project_tasks/<project_task_id:int>/comments
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_task_comments
+  - id: project.add_project_task_rating
+    path: /v1/project_tasks/<project_task_id:int>/ratings
+    methods:
+    - POST
+    returns: list
+    auth: requires tenant token
+    summary: add_project_task_rating
+  - id: project.get_project_task_ratings
+    path: /v1/project_tasks/<project_task_id:int>/ratings
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_task_ratings
+  - id: project.update_project_task
+    path: /v1/project_tasks/<task_id:int>
+    methods:
+    - DELETE
+    returns: ProjectTask
+    auth: requires tenant token
+    summary: update_project_task
+  - id: project.create_project_task_version
+    path: /v1/project_tasks/<task_id:int>/versions
+    methods:
+    - POST
+    returns: ProjectTask
+    auth: requires tenant token
+    summary: create_project_task_version
+  - id: project.create_project
+    path: /v1/projects
+    methods:
+    - POST
+    returns: Project
+    auth: requires tenant token
+    summary: create_project
+  - id: project.get_projects
+    path: /v1/projects
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_projects
+  - id: project.delete_project
+    path: /v1/projects/<project_id:int>
+    methods:
+    - DELETE
+    returns: Project
+    auth: requires tenant token
+    summary: delete_project
+  - id: project.get_project
+    path: /v1/projects/<project_id:int>
+    methods:
+    - GET
+    returns: Project
+    auth: requires tenant token
+    summary: get_project
+  - id: project.update_project
+    path: /v1/projects/<project_id:int>
+    methods:
+    - PATCH
+    returns: Project
+    auth: requires tenant token
+    summary: update_project
+  - id: project.get_project_frontier
+    path: /v1/projects/<project_id:int>/frontier
+    methods:
+    - GET
+    returns: ProjectFrontier
+    auth: requires tenant token
+    summary: get_project_frontier
+  - id: project.list_project_invocations
+    path: /v1/projects/<project_id:int>/invocations
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: list_project_invocations
+  - id: project.create_project_monitor_snapshots
+    path: /v1/projects/<project_id:int>/monitor_snapshots
+    methods:
+    - POST
+    returns: ProjectScenario
+    auth: requires tenant token
+    summary: create_project_monitor_snapshots
+  - id: project.get_project_monitor_snapshots
+    path: /v1/projects/<project_id:int>/monitor_snapshots
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_monitor_snapshots
+  - id: project.create_project_monitor
+    path: /v1/projects/<project_id:int>/monitors
+    methods:
+    - POST
+    returns: ProjectMonitor
+    auth: requires tenant token
+    summary: create_project_monitor
+  - id: project.get_project_monitors
+    path: /v1/projects/<project_id:int>/monitors
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_monitors
+  - id: project.create_project_role
+    path: /v1/projects/<project_id:int>/roles
+    methods:
+    - POST
+    returns: ProjectRole
+    auth: requires tenant token
+    summary: create_project_role
+  - id: project.get_project_roles
+    path: /v1/projects/<project_id:int>/roles
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_roles
+  - id: project.create_project_scenarios
+    path: /v1/projects/<project_id:int>/scenarios
+    methods:
+    - POST
+    returns: ProjectScenario
+    auth: requires tenant token
+    summary: create_project_scenarios
+  - id: project.get_project_scenarios
+    path: /v1/projects/<project_id:int>/scenarios
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_scenarios
+  - id: project.get_project_segment_monitors
+    path: /v1/projects/<project_id:int>/segment_monitors
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_segment_monitors
+  - id: project.get_project_segment_user_monitors
+    path: /v1/projects/<project_id:int>/segment_user_monitors
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_segment_user_monitors
+  - id: project.create_project_segment
+    path: /v1/projects/<project_id:int>/segments
+    methods:
+    - POST
+    returns: ProjectSegment
+    auth: requires tenant token
+    summary: create_project_segment
+  - id: project.get_project_segments
+    path: /v1/projects/<project_id:int>/segments
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_project_segments
+  - id: project.create_segment
+    path: /v1/segments
+    methods:
+    - POST
+    returns: list
+    auth: requires tenant token
+    summary: create_segment
+  - id: project.get_segments
+    path: /v1/segments
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_segments
+  - id: project.delete_segment
+    path: /v1/segments/<segment_id:int>
+    methods:
+    - DELETE
+    returns: Segment
+    auth: requires tenant token
+    summary: delete_segment
+  - id: project.get_segment
+    path: /v1/segments/<segment_id:int>
+    methods:
+    - GET
+    returns: Segment
+    auth: requires tenant token
+    summary: get_segment
+- name: report
+  route_count: 18
+  routes:
+  - id: report.get_report_charts
+    path: /v1/report_charts
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_report_charts
+  - id: report.delete_report_chart
+    path: /v1/report_charts/<report_chart_id:int>
+    methods:
+    - DELETE
+    returns: Report
+    auth: requires tenant token
+    summary: delete_report_chart
+  - id: report.update_report_chart
+    path: /v1/report_charts/<report_chart_id:int>
+    methods:
+    - PATCH
+    returns: Report
+    auth: requires tenant token
+    summary: update_report_chart
+  - id: report.add_report_chart_comment
+    path: /v1/report_charts/<report_chart_id:int>/comments
+    methods:
+    - POST
+    returns: list
+    auth: requires tenant token
+    summary: add_report_chart_comment
+  - id: report.get_report_chart_comments
+    path: /v1/report_charts/<report_chart_id:int>/comments
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_report_chart_comments
+  - id: report.add_report_chart_rating
+    path: /v1/report_charts/<report_chart_id:int>/ratings
+    methods:
+    - POST
+    returns: list
+    auth: requires tenant token
+    summary: add_report_chart_rating
+  - id: report.get_report_chart_ratings
+    path: /v1/report_charts/<report_chart_id:int>/ratings
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_report_chart_ratings
+  - id: report.create_report
+    path: /v1/reports
+    methods:
+    - POST
+    returns: Report
+    auth: requires tenant token
+    summary: create_report
+  - id: report.get_reports
+    path: /v1/reports
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_reports
+  - id: report.delete_report
+    path: /v1/reports/<report_id:int>
+    methods:
+    - DELETE
+    returns: Report
+    auth: requires tenant token
+    summary: delete_report
+  - id: report.get_report
+    path: /v1/reports/<report_id:int>
+    methods:
+    - GET
+    returns: Report
+    auth: requires tenant token
+    summary: get_report
+  - id: report.update_report
+    path: /v1/reports/<report_id:int>
+    methods:
+    - PATCH
+    returns: Report
+    auth: requires tenant token
+    summary: update_report
+  - id: report.add_report_chart
+    path: /v1/reports/<report_id:int>/charts
+    methods:
+    - POST
+    returns: list
+    auth: requires tenant token
+    summary: add_report_chart
+  - id: report.get_report_charts
+    path: /v1/reports/<report_id:int>/charts
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_report_charts
+  - id: report.add_report_comment
+    path: /v1/reports/<report_id:int>/comments
+    methods:
+    - POST
+    returns: list
+    auth: requires tenant token
+    summary: add_report_comment
+  - id: report.get_report_comments
+    path: /v1/reports/<report_id:int>/comments
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_report_comments
+  - id: report.add_report_rating
+    path: /v1/reports/<report_id:int>/ratings
+    methods:
+    - POST
+    returns: list
+    auth: requires tenant token
+    summary: add_report_rating
+  - id: report.get_report_ratings
+    path: /v1/reports/<report_id:int>/ratings
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_report_ratings
+- name: run
+  route_count: 5
+  routes:
+  - id: run.get
+    path: /v1/job/<job_id:int>/<model_name:string>
+    methods:
+    - GET
+    returns: TrainedModel
+    auth: requires tenant token
+    summary: get
+  - id: run.update
+    path: /v1/job/<job_id:int>/<model_name:string>
+    methods:
+    - POST
+    returns: TrainedModel
+    auth: requires tenant token
+    summary: update
+  - id: run.list_by_run
+    path: /v1/run/<run_id:int>/job
+    methods:
+    - GET
+    returns: ModelTrainingJob
+    auth: requires tenant token
+    summary: list_by_run
+  - id: run.list_all
+    path: /v1/runs
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: list_all
+  - id: run.list_by_tag
+    path: /v1/runs/by/<tag_name:string>
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: list_by_tag
+- name: schema_monitor
+  route_count: 8
+  routes:
+  - id: schema_monitor.create
+    path: /v1/account/<account_id:int>/schema_monitors
+    methods:
+    - POST
+    returns: SchemaMonitor
+    auth: requires tenant token
+    summary: create
+  - id: schema_monitor.list_all
+    path: /v1/account/<account_id:int>/schema_monitors
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: list_all
+  - id: schema_monitor.presigned_url_for_schema_monitoring
+    path: /v1/schema_monitor/<id:int>/presigned_url
+    methods:
+    - POST
+    returns: dict
+    auth: requires tenant token
+    summary: presigned_url_for_schema_monitoring
+  - id: schema_monitor.delete
+    path: /v1/schema_monitor/<schema_monitor_id:int>
+    methods:
+    - DELETE
+    returns: SchemaMonitor
+    auth: requires tenant token
+    summary: delete
+  - id: schema_monitor.get
+    path: /v1/schema_monitor/<schema_monitor_id:int>
+    methods:
+    - GET
+    returns: SchemaMonitor
+    auth: requires tenant token
+    summary: get
+  - id: schema_monitor.update
+    path: /v1/schema_monitor/<schema_monitor_id:int>
+    methods:
+    - PATCH
+    returns: SchemaMonitor
+    auth: requires tenant token
+    summary: update
+  - id: schema_monitor.create
+    path: /v1/schema_monitors
+    methods:
+    - POST
+    returns: SchemaMonitor
+    auth: requires tenant token
+    summary: create
+  - id: schema_monitor.list_all
+    path: /v1/schema_monitors
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: list_all
+- name: slack
+  route_count: 1
+  routes:
+  - id: slack.on_response
+    path: /v1/response/<action:str>
+    methods:
+    - GET
+    returns: Annotated
+    auth: requires any token
+    summary: on_response
+- name: tag
+  route_count: 9
+  routes:
+  - id: tag.delete
+    path: /v1/tag/<tag_name:str>
+    methods:
+    - DELETE
+    returns: Tag
+    auth: requires tenant token
+    summary: delete
+  - id: tag.get
+    path: /v1/tag/<tag_name:str>
+    methods:
+    - GET
+    returns: Tag
+    auth: requires tenant token
+    summary: get
+  - id: tag.update
+    path: /v1/tag/<tag_name:str>
+    methods:
+    - PATCH
+    returns: Annotated
+    auth: requires tenant token
+    summary: update
+  - id: tag.create
+    path: /v1/tags
+    methods:
+    - POST
+    returns: Annotated
+    auth: requires tenant token
+    summary: create
+  - id: tag.delete
+    path: /v1/tags
+    methods:
+    - DELETE
+    returns: Tag
+    auth: requires tenant token
+    summary: delete
+  - id: tag.list_all
+    path: /v1/tags
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: list_all
+  - id: tag.update
+    path: /v1/tags
+    methods:
+    - PATCH
+    returns: Annotated
+    auth: requires tenant token
+    summary: update
+  - id: tag.list_tags_by_entity
+    path: /v1/tags/by/<entity_type:str>
+    methods:
+    - GET
+    returns: Annotated
+    auth: requires tenant token
+    summary: list_tags_by_entity
+  - id: tag.list_tags_by_entity
+    path: /v1/tags/by/<entity_type:str>/<entity_id:int>
+    methods:
+    - GET
+    returns: Annotated
+    auth: requires tenant token
+    summary: list_tags_by_entity
+- name: tagged
+  route_count: 11
+  routes:
+  - id: tagged.create
+    path: /v1/tagged
+    methods:
+    - POST
+    returns: Tagged
+    auth: requires tenant token
+    summary: create
+  - id: tagged.list_all
+    path: /v1/tagged
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: list_all
+  - id: tagged.update
+    path: /v1/tagged
+    methods:
+    - PATCH
+    returns: Annotated
+    auth: requires tenant token
+    summary: update
+  - id: tagged.create
+    path: /v1/tagged/<tag_name:string>
+    methods:
+    - POST
+    returns: Tagged
+    auth: requires tenant token
+    summary: create
+  - id: tagged.delete
+    path: /v1/tagged/<tag_name:string>
+    methods:
+    - DELETE
+    returns: Tag
+    auth: requires tenant token
+    summary: delete
+  - id: tagged.list_by_tag_name
+    path: /v1/tagged/<tag_name:string>
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: list_by_tag_name
+  - id: tagged.update
+    path: /v1/tagged/<tag_name:string>
+    methods:
+    - PATCH
+    returns: Annotated
+    auth: requires tenant token
+    summary: update
+  - id: tagged.create
+    path: /v1/tagged/<tag_name:string>/<tag_type:string>/<tagged_id:int>
+    methods:
+    - POST
+    returns: Tagged
+    auth: requires tenant token
+    summary: create
+  - id: tagged.delete
+    path: /v1/tagged/<tag_name:string>/<tag_type:string>/<tagged_id:int>
+    methods:
+    - DELETE
+    returns: Tag
+    auth: requires tenant token
+    summary: delete
+  - id: tagged.get
+    path: /v1/tagged/<tag_name:string>/<tag_type:string>/<tagged_id:int>
+    methods:
+    - GET
+    returns: Tagged
+    auth: requires tenant token
+    summary: get
+  - id: tagged.update
+    path: /v1/tagged/<tag_name:string>/<tag_type:string>/<tagged_id:int>
+    methods:
+    - PATCH
+    returns: Annotated
+    auth: requires tenant token
+    summary: update
+- name: tenant
+  route_count: 25
+  routes:
+  - id: tenant.delete_foreign_authentication
+    path: /v1/foreign-authentication/<key_or_id:str>
+    methods:
+    - DELETE
+    returns: OAuth2ForeignTenantAuthentication
+    auth: requires tenant token
+    summary: delete_foreign_authentication
+  - id: tenant.get_foreign_authentication
+    path: /v1/foreign-authentication/<key_or_id:str>
+    methods:
+    - GET
+    returns: OAuth2ForeignTenantAuthentication
+    auth: requires tenant token
+    summary: get_foreign_authentication
+  - id: tenant.update_foreign_authentication
+    path: /v1/foreign-authentication/<key_or_id:str>
+    methods:
+    - PATCH
+    returns: OAuth2ForeignTenantAuthentication
+    auth: requires tenant token
+    summary: update_foreign_authentication
+  - id: tenant.create_foreign_authentication
+    path: /v1/foreign-authentications
+    methods:
+    - POST
+    returns: SAMLForeignTenantAuthentication
+    auth: requires tenant token
+    summary: create_foreign_authentication
+  - id: tenant.list_foreign_authentications
+    path: /v1/foreign-authentications
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: list_foreign_authentications
+  - id: tenant.create_invite
+    path: /v1/invites
+    methods:
+    - POST
+    returns: NewPublicInvite
+    auth: requires any token
+    summary: create_invite
+  - id: tenant.renew_token
+    path: /v1/renew/tenant
+    methods:
+    - POST
+    returns: TenantSession
+    auth: requires tenant token
+    summary: renew_token
+  - id: tenant.get
+    path: /v1/tenant/<tenant_id:int>
+    methods:
+    - GET
+    returns: Tenant
+    auth: requires any token
+    summary: get
+  - id: tenant.update
+    path: /v1/tenant/<tenant_id:int>
+    methods:
+    - PATCH
+    returns: Tenant
+    auth: requires any token
+    summary: update
+  - id: tenant.create_sts_token
+    path: /v1/tenant/<tenant_id:int>/sts
+    methods:
+    - POST
+    returns: STSResponse
+    auth: requires tenant token
+    summary: create_sts_token
+  - id: tenant.usage_report
+    path: /v1/tenant/<tenant_id:int>/usage-report
+    methods:
+    - POST
+    returns: Annotated
+    auth: requires tenant token
+    summary: usage_report
+  - id: tenant.change_tenant_users
+    path: /v1/tenant/<tenant_id:int>/users
+    methods:
+    - PATCH
+    returns: PublicPendingUser
+    auth: requires any token
+    summary: change_tenant_users
+  - id: tenant.show_tenant_users
+    path: /v1/tenant/<tenant_id:int>/users
+    methods:
+    - GET
+    returns: PublicPendingUser
+    auth: requires any token
+    summary: show_tenant_users
+  - id: tenant.create
+    path: /v1/tenants
+    methods:
+    - POST
+    returns: Tenant
+    auth: requires user token
+    summary: create
+  - id: tenant.list_all
+    path: /v1/tenants
+    methods:
+    - GET
+    returns: tuple
+    auth: requires user token
+    summary: list_all
+  - id: tenant.update_all_remote_stacks
+    path: /v1/tenants/sync
+    methods:
+    - POST
+    returns: Annotated
+    auth: requires any token
+    summary: update_all_remote_stacks
+  - id: tenant.delete_user_alias
+    path: /v1/user_alias/<alias_id:int>
+    methods:
+    - DELETE
+    returns: tuple
+    auth: requires tenant token
+    summary: delete_user_alias
+  - id: tenant.get_user_alias
+    path: /v1/user_alias/<alias_id:int>
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: get_user_alias
+  - id: tenant.update_user_alias
+    path: /v1/user_alias/<alias_id:int>
+    methods:
+    - PATCH
+    returns: tuple
+    auth: requires tenant token
+    summary: update_user_alias
+  - id: tenant.create_user_aliases
+    path: /v1/user_aliases
+    methods:
+    - POST
+    returns: tuple
+    auth: requires tenant token
+    summary: create_user_aliases
+  - id: tenant.delete_multi_alias
+    path: /v1/user_aliases
+    methods:
+    - DELETE
+    returns: tuple
+    auth: requires tenant token
+    summary: delete_multi_alias
+  - id: tenant.list_tenant_user_aliases
+    path: /v1/user_aliases
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: list_tenant_user_aliases
+  - id: tenant.list_by_external_id
+    path: /v1/user_aliases/by/<external_id:path>
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: list_by_external_id
+  - id: tenant.list_in_namespace
+    path: /v1/user_aliases/in/<namespace:path>
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: list_in_namespace
+  - id: tenant.show_user_alias_namespaces
+    path: /v1/user_aliases/namespaces
+    methods:
+    - GET
+    returns: frozenset
+    auth: requires tenant token
+    summary: show_user_alias_namespaces
+- name: training
+  route_count: 10
+  routes:
+  - id: training.create
+    path: /v1/data
+    methods:
+    - POST
+    returns: Training
+    auth: requires tenant token
+    summary: create
+  - id: training.update
+    path: /v1/data/<training_data_id:int>
+    methods:
+    - PATCH
+    returns: Annotated
+    auth: requires tenant token
+    summary: update
+  - id: training.debug_url
+    path: /v1/data/<training_data_id:int>/debug
+    methods:
+    - GET
+    returns: Annotated
+    auth: requires tenant token
+    summary: debug_url
+  - id: training.update_descriptions
+    path: /v1/data/<training_data_id:int>/descriptions
+    methods:
+    - PATCH
+    returns: Annotated
+    auth: requires tenant token
+    summary: update_descriptions
+  - id: training.reindex
+    path: /v1/data/<training_data_id:int>/reindex
+    methods:
+    - POST
+    returns: Training
+    auth: requires tenant token
+    summary: reindex
+  - id: training.delete_rulefit
+    path: /v1/data/<training_data_id:int>/rulefit
+    methods:
+    - DELETE
+    returns: RulefitMappings
+    auth: requires tenant token
+    summary: delete_rulefit
+  - id: training.update_rulefit
+    path: /v1/data/<training_data_id:int>/rulefit
+    methods:
+    - PATCH
+    returns: RulefitMappings
+    auth: requires tenant token
+    summary: update_rulefit
+  - id: training.create_rulefit
+    path: /v1/data/<training_data_id:int>/rulefits
+    methods:
+    - POST
+    returns: RulefitMappings
+    auth: requires tenant token
+    summary: create_rulefit
+  - id: training.list_rulefits
+    path: /v1/data/<training_data_id:int>/rulefits
+    methods:
+    - GET
+    returns: RulefitMappings
+    auth: requires tenant token
+    summary: list_rulefits
+  - id: training.list_by_tag
+    path: /v1/data/by/<tag_name:string>
+    methods:
+    - GET
+    returns: tuple
+    auth: requires tenant token
+    summary: list_by_tag
+- name: training_data
+  route_count: 12
+  routes:
+  - id: training_data.list_all_training_data
+    path: /v1/data
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: list_all_training_data
+  - id: training_data.delete_training_data
+    path: /v1/data/<training_data_id:int>
+    methods:
+    - DELETE
+    returns: Training
+    auth: requires tenant token
+    summary: delete_training_data
+  - id: training_data.get_training_data
+    path: /v1/data/<training_data_id:int>
+    methods:
+    - GET
+    returns: Training
+    auth: requires tenant token
+    summary: get_training_data
+  - id: training_data.add_training_data_comment
+    path: /v1/data/<training_data_id:int>/comments
+    methods:
+    - POST
+    returns: list
+    auth: requires tenant token
+    summary: add_training_data_comment
+  - id: training_data.get_training_data_comments
+    path: /v1/data/<training_data_id:int>/comments
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_training_data_comments
+  - id: training_data.create_upload_detail
+    path: /v1/data/<training_data_id:int>/details
+    methods:
+    - POST
+    returns: TrainingDataDetailsUpload
+    auth: requires tenant token
+    summary: create_upload_detail
+  - id: training_data.get_external_model_presigned_url
+    path: /v1/data/<training_data_id:int>/external_model_presigned_url
+    methods:
+    - GET
+    returns: PresignedURL
+    auth: requires tenant token
+    summary: get_external_model_presigned_url
+  - id: training_data.add_training_data_rating
+    path: /v1/data/<training_data_id:int>/ratings
+    methods:
+    - POST
+    returns: list
+    auth: requires tenant token
+    summary: add_training_data_rating
+  - id: training_data.get_training_data_ratings
+    path: /v1/data/<training_data_id:int>/ratings
+    methods:
+    - GET
+    returns: list
+    auth: requires tenant token
+    summary: get_training_data_ratings
+  - id: training_data.create_upload_url
+    path: /v1/data/<training_data_id:int>/upload
+    methods:
+    - POST
+    returns: TrainingDataUpload
+    auth: requires tenant token
+    summary: create_upload_url
+  - id: training_data.delete_upload_url
+    path: /v1/data_upload/<upload_id:string>
+    methods:
+    - DELETE
+    returns: TrainingDataUpload
+    auth: null
+    summary: delete_upload_url
+  - id: training_data.get_upload_url
+    path: /v1/data_upload/<upload_id:string>
+    methods:
+    - GET
+    returns: TrainingDataUpload
+    auth: null
+    summary: get_upload_url
+- name: user
+  route_count: 8
+  routes:
+  - id: user.get_config
+    path: /v1/config
+    methods:
+    - GET
+    returns: ServerConfig
+    auth: requires any token
+    summary: get_config
+  - id: user.leave_tenant
+    path: /v1/invite/<tenant_id:int>
+    methods:
+    - DELETE
+    returns: PublicInvite
+    auth: requires user token
+    summary: leave_tenant
+  - id: user.accept_or_reject_invites
+    path: /v1/invites
+    methods:
+    - PATCH
+    returns: PublicInvite
+    auth: requires user token
+    summary: accept_or_reject_invites
+  - id: user.leave_tenants
+    path: /v1/invites
+    methods:
+    - DELETE
+    returns: PublicInvite
+    auth: requires user token
+    summary: leave_tenants
+  - id: user.list_my_invites
+    path: /v1/invites
+    methods:
+    - GET
+    returns: tuple
+    auth: requires user token
+    summary: list_my_invites
+  - id: user.show_my_info
+    path: /v1/me
+    methods:
+    - GET
+    returns: User.UserWithoutPassword_hashAndAliases
+    auth: requires any token
+    summary: show_my_info
+  - id: user.update_my_info
+    path: /v1/me
+    methods:
+    - PATCH
+    returns: User.UserWithoutPassword_hashAndAliases
+    auth: requires user token
+    summary: update_my_info
+  - id: user.show_session
+    path: /v1/me/session
+    methods:
+    - GET
+    returns: UserSessionInfo
+    auth: requires any token
+    summary: show_session

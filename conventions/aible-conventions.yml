@@ -1,0 +1,169 @@
+generated: '2026-09-14'
+method: derived
+source: reference/aible-api-routes.yml (parsed from https://api.iamaible.com/) + live probes of https://api.iamaible.com
+name: Aible API cross-cutting conventions
+description: >-
+  Runtime semantics for the Aible API, derived from the route index Aible publishes at its own API
+  root and from live unauthenticated probes. Aible publishes no OpenAPI and no conventions guide, so
+  anything not observable is recorded as unknown rather than assumed.
+
+authentication:
+  style: bearer session token in the Authorization header
+  classes: [user token, tenant token, short-lived STS token]
+  challenge_on_missing_credentials: 403 with a JSON body, no WWW-Authenticate header
+  detail: authentication/aible-authentication.yml
+
+versioning:
+  style: path-prefix
+  current: v1
+  evidence: every documented route except / and /favicon.ico is prefixed /v1
+  server_version: 2.0.0+git.2624722d65b50b4d1dc4c6032742eca9dc361380
+  server_version_header: 'server: mjolnir/2.0.0/<per-request uuid>'
+  media_type_versioning: false
+  header_versioning: false
+  note: >-
+    The API server reports its own build (including a git SHA) in the route index and a
+    major.minor in the Server header, but there is no published version or deprecation policy.
+
+request_id_tracing:
+  supported: true
+  response_header: x-request-id
+  companion_header: x-request-id-valuefrom
+  observed_value_source: X-Amzn-Trace-Id
+  evidence: >-
+    Observed on live 403 responses from https://api.iamaible.com/v1/me — e.g.
+    x-request-id: 1-6aa86c58-132b7d6c53746d9f3556a542, x-request-id-valuefrom: X-Amzn-Trace-Id.
+  note: The request id is also interpolated into the CSP report-uri, so it is stable per request.
+
+error_envelope:
+  shape: '{"type": <string>, "message": <string>, "key": <string|null>}'
+  rfc9457: false
+  media_type: application/json
+  unknown_route_media_type: text/plain
+  detail: errors/aible-problem-types.yml
+
+idempotency:
+  coverage: none
+  mechanism: null
+  header: null
+  scope: []
+  retention: null
+  note: >-
+    No Idempotency-Key header, replay key, request-hash dedupe or "safe to retry" statement appears
+    anywhere in the published route index or on any public Aible page. 229 of 394 published routes
+    are mutating (126 POST, 49 PATCH, 51 DELETE, 3 PUT) and none of them documents replay protection,
+    so a retried create is a second create as far as any published material says.
+  evidence: https://api.iamaible.com/
+
+reversibility:
+  grade: documented
+  rationale: >-
+    Reversal paths exist and are published — cancel operations for the two long-running surfaces, and
+    DELETE on effectively every resource — but Aible states no window, no soft-delete/restore path,
+    and no retention period for anything it deletes. A reversal path without a stated window is
+    `documented`, not `verified`, and no window is asserted here because none is published.
+  write_surface_operations: 229
+  reversal_paths:
+  - surface: training / scoring jobs
+    forward: {id: jobs.create, method: POST, path: /v1/job}
+    reversal: {id: jobs.abort, method: POST, path: /v1/job/<job_id:int>/cancel, kind: cancel}
+    window: null
+    window_source: null
+    note: Cancels an in-flight job. No statement on what happens to partial output or billed credits.
+  - surface: model deployments
+    forward: {id: deployment.create, method: POST, path: /v1/deployment}
+    reversal: {id: deployment.abort, method: POST, path: /v1/deployment/<deployment_id:int>/cancel, kind: cancel}
+    window: null
+    window_source: null
+  - surface: model deployments (teardown)
+    forward: {id: deployment.deploy_project, method: POST, path: /v1/projects/<project_id:int>/deploy}
+    reversal: {id: deployment.delete, method: DELETE, path: /v1/deployment/<deployment_id:int>, kind: delete}
+    window: null
+    window_source: null
+  - surface: projects
+    forward: {id: project.create_project, method: POST, path: /v1/projects}
+    reversal: {id: project.delete_project, method: DELETE, path: /v1/projects/<project_id:int>, kind: delete}
+    window: null
+    window_source: null
+    note: No restore or undelete route is published for any resource type.
+  - surface: training data
+    forward: {id: training_data.create_upload_url, method: POST, path: /v1/data}
+    reversal: {id: training_data.delete_training_data, method: DELETE, path: /v1/data/<training_data_id:int>, kind: delete}
+    window: null
+    window_source: null
+  - surface: marketplace offers
+    forward: {id: marketplace.create_new_offer, method: POST, path: /v1/marketplace/<marketplace_id:int>/offers}
+    reversal: {id: marketplace.archive_offer, method: DELETE, path: /v1/offer/<offer_id:int>, kind: archive}
+    window: null
+    window_source: null
+    note: >-
+      The only reversal in the API whose name implies retention rather than destruction. No retention
+      period is published.
+  - surface: tenant membership invitations
+    forward: {id: tenant.create_invite, method: POST, path: /v1/invite/<tenant_id:int>}
+    reversal: {id: user.accept_or_reject_invites, method: PATCH, path: /v1/invites, kind: reject}
+    window: null
+    window_source: null
+  irreversible:
+  - >-
+      Purchases. POST /v1/offer/<offer_id:int>/buy has no reversal, refund or void route, and the
+      AWS Marketplace Flex Credits listing states plainly "no refunds allowed" — so a credit purchase
+      made through the API cannot be taken back.
+  no_restore_operations: true
+
+dry_run_mode:
+  supported: unknown
+  note: >-
+    No dry-run, preview, validate-only or simulate parameter is documented. A debug route exists for
+    jobs (GET /v1/job/<job_id:int>/debug) and for training data (GET /v1/data/<id>/debug) but these
+    inspect an existing run rather than rehearse a write.
+
+pagination:
+  style: unknown
+  params: []
+  response_fields: []
+  note: >-
+    List routes exist throughout (GET /v1/projects, /v1/jobs, /v1/tenants, /v1/reports, …) but the
+    route index publishes no page/limit/offset/cursor parameters and no envelope fields, and the
+    routes cannot be exercised anonymously. Not guessed.
+
+filtering_and_expansion:
+  field_expansion: unknown
+  sparse_fieldsets: unknown
+  first_class_filters:
+  - {by: tag, routes: ['/v1/blueprints/by/<tag_name>', '/v1/data/by/<tag_name>', '/v1/jobs/by/<tag_name>', '/v1/runs/by/<tag_name>', '/v1/tagged/<tag_name>']}
+  - {by: entity, routes: ['/v1/tags/by/<entity_type>', '/v1/tags/by/<entity_type>/<entity_id>']}
+  - {by: external id, routes: ['/v1/tenants (list_by_external_id)', '/v1/user_aliases/by/<external_id>', '/v1/user_aliases/in/<namespace>']}
+  note: >-
+    Aible models filtering as dedicated routes rather than query parameters — a tag and alias system
+    is first class across blueprints, training data, jobs and runs.
+
+metadata:
+  mechanism: tags
+  description: >-
+    A cross-entity tagging system (modules `tag` and `tagged`, 20 routes) attaches named tags to any
+    entity type and queries back by tag or by entity, which is Aible's stand-in for a free-form
+    metadata map.
+
+rate_limit_signaling:
+  headers_observed: []
+  status_on_exhaustion: unknown
+  detail: rate-limits/aible-rate-limits.yml
+  note: No RateLimit-*, X-RateLimit-* or Retry-After header appeared on any observed response.
+
+transport_security:
+  hsts: 'strict-transport-security: max-age=63072000; includeSubDomains; preload'
+  csp: content-security-policy-report-only present, with a per-request report-uri
+  http2: true
+  evidence: https://api.iamaible.com/v1/me
+
+realtime:
+  websocket_capable_routes: 2
+  note: Two routes in the published index are labelled "websocket capable"; no protocol docs are published.
+
+cross_links:
+  errors: errors/aible-problem-types.yml
+  lifecycle: lifecycle/aible-lifecycle.yml
+  authentication: authentication/aible-authentication.yml
+  rate_limits: rate-limits/aible-rate-limits.yml
+  data_model: data-model/aible-data-model.yml
