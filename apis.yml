@@ -1,15 +1,13 @@
 aid: aible
 name: Aible
-description: 'Aible is an enterprise AI company founded in 2018 and headquartered in
-  Pleasanton, California, that lets business users build and run AI agents, AutoML models
-  and generative-AI analytics against data that stays inside the customer''s own AWS,
-  Azure, GCP or on-premise account. The platform is organized around projects, segments,
-  scenarios, training data, jobs, models, deployments and content-generation collections,
-  and is operated through a public REST API served at api.iamaible.com. That API server
-  publishes its own route index — 394 routes across 29 modules at /v1, protected by bearer
-  user, tenant and STS tokens — but Aible ships no OpenAPI, AsyncAPI, MCP server, agent card,
-  SDK or public developer portal. Commercial access is sold as prepaid Flex Credits through
-  the AWS and Google Cloud marketplaces.'
+description: Aible is an enterprise AI company founded in 2018 and headquartered in Pleasanton, California,
+  that lets business users build and run AI agents, AutoML models and generative-AI analytics against
+  data that stays inside the customer's own AWS, Azure, GCP or on-premise account. The platform is organized
+  around projects, segments, scenarios, training data, jobs, models, deployments and content-generation
+  collections, and is operated through a public REST API served at api.iamaible.com. That API server publishes
+  its own route index — 394 routes across 29 modules at /v1, protected by bearer user, tenant and STS
+  tokens — but Aible ships no OpenAPI, AsyncAPI, MCP server, agent card, SDK or public developer portal.
+  Commercial access is sold as prepaid Flex Credits through the AWS and Google Cloud marketplaces.
 image: https://www.aible.com/hubfs/Aible_Corp_Logo_Orange_White.svg
 url: https://raw.githubusercontent.com/api-evangelist/aible/refs/heads/main/apis.yml
 x-type: company
@@ -18,6 +16,17 @@ specificationVersion: '0.20'
 created: '2026-09-14'
 modified: '2026-09-14'
 tags:
+- Artificial Intelligence
+- Machine-Learning
+- AutoML
+- Analytics
+- Data Science
+- AI Agents
+- Generative AI
+- Enterprise Software
+- Cloud
+- Company
+tags_raw:
 - Artificial Intelligence
 - Machine Learning
 - AutoML
@@ -30,19 +39,23 @@ tags:
 - Company
 position: Producing
 apis:
-- aid: aible-api
+- aid: aible:aible-api
   name: Aible API
-  description: 'The Aible API server (self-reported version 2.0.0) is the control plane behind
-    the Aible platform. Its published route index lists 394 routes under the /v1 prefix across
-    29 modules — account, project, folder, training_data, training, jobs, run, model, deployment,
-    content_generation, language_model_artifact, chat_tone, report, schema_monitor, tag, tenant,
-    login, marketplace, licensing and more. Nearly every route requires an Authorization: Bearer
-    header carrying a user token, tenant token or federated STS token; the index labels each
-    route with which token class it needs.'
+  description: 'The Aible API server (self-reported version 2.0.0) is the control plane behind the Aible
+    platform. Its published route index lists 394 routes under the /v1 prefix across 29 modules — account,
+    project, folder, training_data, training, jobs, run, model, deployment, content_generation, language_model_artifact,
+    chat_tone, report, schema_monitor, tag, tenant, login, marketplace, licensing and more. Nearly every
+    route requires an Authorization: Bearer header carrying a user token, tenant token or federated STS
+    token; the index labels each route with which token class it needs.'
   image: https://www.aible.com/hubfs/Aible_Corp_Logo_Orange_White.svg
   humanURL: https://api.iamaible.com/
   baseURL: https://api.iamaible.com
   tags:
+  - Artificial Intelligence
+  - Machine-Learning
+  - Analytics
+  - AI Agents
+  tags_raw:
   - Artificial Intelligence
   - Machine Learning
   - Analytics
