@@ -17,7 +17,7 @@ created: '2026-09-14'
 modified: '2026-09-14'
 tags:
 - Artificial Intelligence
-- Machine-Learning
+- Machine Learning
 - AutoML
 - Analytics
 - Data Science
@@ -37,6 +37,7 @@ tags_raw:
 - Enterprise Software
 - Cloud
 - Company
+- Machine-Learning
 position: Producing
 apis:
 - aid: aible:aible-api
@@ -52,7 +53,7 @@ apis:
   baseURL: https://api.iamaible.com
   tags:
   - Artificial Intelligence
-  - Machine-Learning
+  - Machine Learning
   - Analytics
   - AI Agents
   tags_raw:
@@ -60,6 +61,7 @@ apis:
   - Machine Learning
   - Analytics
   - AI Agents
+  - Machine-Learning
   properties:
   - type: APIReference
     url: https://api.iamaible.com/
