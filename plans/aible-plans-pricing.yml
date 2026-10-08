@@ -81,3 +81,34 @@ notes:
   /v1/offer/<id>/buy, /v1/purchased/<id>, /v1/licensing, plus AWS Flex-credit provisioning hooks at
   /v1/aws/flex/<customer_id>/<product_code>/add — so purchasing is programmable, but the catalogue
   behind those routes is tenant-scoped and not publicly readable.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - subscription
+  units: []
+  plans:
+  - name: Getting Started Bundle
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: Flex Credits-Small
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: Flex Credits-Medium
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: Flex Credits-Large
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
