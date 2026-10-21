@@ -8,7 +8,7 @@ description: >-
   enterprise AI/analytics platform; its sector has no mandatory API interchange standard, and no
   standard is invented here to fill the slot. No published certification or compliance program was
   found, so no Compliance pointer is emitted.
-conformance:
+standards:
 - id: oauth2
   conforms: false
   role: client-only

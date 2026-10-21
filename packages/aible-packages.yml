@@ -1,5 +1,5 @@
 generated: '2026-09-14'
-method: searched
+method: none
 source: registry.npmjs.org, pypi.org, plus the Aible site and API route index
 name: Aible client packages
 description: >-

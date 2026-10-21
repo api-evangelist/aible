@@ -1,8 +1,18 @@
-generated: '2026-10-13'
+generated: '2026-10-20'
 method: searched
+source:
+- https://zapier.com/apps/aible/integrations
+- https://n8n.io/integrations/aible/
+- https://composio.dev/toolkits/aible
+- https://monid.ai/tools/aible
 checked:
 - https://aws.amazon.com/marketplace/
 - https://azuremarketplace.microsoft.com/
+- https://composio.dev/toolkits/aible
+- https://monid.ai/tools/aible
+- https://n8n.io/integrations/aible/
+- https://zapier.com/apps/aible/integrations
+summary: null
 marketplace_apps: []
 edges:
 - partner_name: AWS Marketplace
@@ -35,3 +45,4 @@ edges:
   seller_name: Aible, Inc.
   detected_by: sweep-cloud-marketplaces.py
   detected: '2026-10-13'
+templates: []

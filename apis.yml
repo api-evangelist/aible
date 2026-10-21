@@ -39,6 +39,56 @@ tags_raw:
 - Company
 - Machine-Learning
 position: Producing
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
+- FN: APIs.json
+  email: info@apis.io
+common:
+- type: Deprecation
+  url: lifecycle/aible-lifecycle.yml
+- type: Hosts
+  url: hosts/aible-hosts.yml
+- type: IntegrationEdges
+  url: integrations/aible-integration-edges.yml
+- type: Vendors
+  url: vendors/aible-vendors.yml
+- type: Security
+  url: https://www.aible.com/security/
+- type: Newsroom
+  url: https://www.aible.com/news
+- type: DomainSecurity
+  url: security/aible-domain-security.yml
+- type: Website
+  url: https://www.aible.com/
+- type: APIReference
+  url: https://api.iamaible.com/
+- type: Support
+  url: https://www.aible.com/partner_support
+- type: Login
+  url: https://www.iamaible.com/login
+- type: Pricing
+  url: https://aws.amazon.com/marketplace/pp/prodview-77t5fm3cysegw
+- type: TermsOfService
+  url: https://www.aible.com/aible-terms-of-use
+- type: PrivacyPolicy
+  url: https://www.aible.com/privacy-policy
+- type: ChangeLog
+  url: changelog/aible-changelog.yml
+- type: Plans
+  url: plans/aible-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/aible-rate-limits.yml
+- type: Authentication
+  url: authentication/aible-authentication.yml
+- type: Conventions
+  url: conventions/aible-conventions.yml
+- type: DataModel
+  url: data-model/aible-data-model.yml
+- type: Lifecycle
+  url: lifecycle/aible-lifecycle.yml
+- type: Conformance
+  url: conformance/aible-conformance.yml
 apis:
 - aid: aible:aible-api
   name: Aible API
@@ -67,8 +117,6 @@ apis:
     url: https://api.iamaible.com/
   - type: Authentication
     url: authentication/aible-authentication.yml
-  - type: ErrorCatalog
-    url: errors/aible-problem-types.yml
   - type: Conventions
     url: conventions/aible-conventions.yml
   - type: DataModel
@@ -77,54 +125,21 @@ apis:
     url: lifecycle/aible-lifecycle.yml
   - type: RateLimits
     url: rate-limits/aible-rate-limits.yml
-maintainers:
-- FN: Kin Lane
-  email: kin@apievangelist.com
-- FN: APIs.json
-  email: info@apis.io
-common:
-- type: DomainSecurity
-  url: security/aible-domain-security.yml
-- type: Website
-  url: https://www.aible.com/
-- type: APIReference
-  url: https://api.iamaible.com/
-- type: Blog
-  url: https://www.aible.com/blogs
-- type: Support
-  url: https://www.aible.com/partner_support
-- type: Login
-  url: https://www.iamaible.com/login
-- type: Pricing
-  url: https://aws.amazon.com/marketplace/pp/prodview-77t5fm3cysegw
-- type: TermsOfService
-  url: https://www.aible.com/aible-terms-of-use
-- type: PrivacyPolicy
-  url: https://www.aible.com/privacy-policy
-- type: ChangeLog
-  url: changelog/aible-changelog.yml
-- type: Plans
-  url: plans/aible-plans-pricing.yml
-- type: RateLimits
-  url: rate-limits/aible-rate-limits.yml
-- type: Authentication
-  url: authentication/aible-authentication.yml
-- type: ErrorCatalog
-  url: errors/aible-problem-types.yml
-- type: Conventions
-  url: conventions/aible-conventions.yml
-- type: DataModel
-  url: data-model/aible-data-model.yml
-- type: Lifecycle
-  url: lifecycle/aible-lifecycle.yml
-- type: Conformance
-  url: conformance/aible-conformance.yml
-- type: Packages
-  url: packages/aible-packages.yml
-- type: LLMsTxt
-  url: llms/aible-llms.txt
 x-enrichment:
-  date: '2026-09-14'
-  status: enriched
-  artifacts_added: 14
-  pass: local-v3
+  date: '2026-10-20'
+  status: nochange
+  artifacts_added: 2
+  pass: local-v5
+x-coverage:
+  state: unreadable
+  reason: no-machine-readable-spec
+  detail: api.iamaible.com serves only a plain-text route index (394 routes) with no methods or schemas,
+    and every conventional OpenAPI/Swagger path on it returns 404, so no contract can be read or generated.
+  evidence:
+  - url: https://api.iamaible.com/openapi.json
+    status: 404
+  - url: https://api.iamaible.com/swagger.json
+    status: 404
+  - url: https://www.aible.com/llms.txt
+    status: 404
+  checked: '2026-10-20'

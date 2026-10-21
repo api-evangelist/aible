@@ -214,6 +214,7 @@ entities:
   relationships:
   - {type: belongs_to, target: Marketplace, via: /v1/marketplace/<marketplace_id:int>/offers}
 
+relationships: []
 polymorphic_patterns:
 - name: comments-and-ratings
   description: >-

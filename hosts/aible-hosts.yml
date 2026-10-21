@@ -1,0 +1,115 @@
+generated: '2026-10-20'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 8
+  own: 4
+  other_domain: 4
+  platform: 0
+  roles:
+  - api
+  - docs
+  - identity
+  - marketing
+  - other
+  - website
+hosts:
+- host: api.aible.com
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: aible.com
+  role: api
+  relation: own
+- host: api.amazon.com
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: amazon.com
+  role: api
+  relation: other-domain
+- host: api.iamaible.com
+  found_by:
+  - pointer
+  - apis[]
+  - probed
+  - docs-index
+  - contract-discovery
+  - well-known
+  types:
+  - APIReference
+  serves:
+  - api
+  - docs
+  registrable_domain: iamaible.com
+  role: docs
+  relation: other-domain
+- host: aws.amazon.com
+  found_by:
+  - pointer
+  - probed
+  - well-known
+  types:
+  - Pricing
+  serves: []
+  registrable_domain: amazon.com
+  role: marketing
+  relation: other-domain
+- host: enaible.aible.com
+  found_by:
+  - probed
+  - site-links
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: aible.com
+  role: other
+  relation: own
+- host: learn.aible.com
+  found_by:
+  - probed
+  - site-links
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: aible.com
+  role: other
+  relation: own
+- host: www.aible.com
+  found_by:
+  - pointer
+  - probed
+  - docs-index
+  - contract-discovery
+  - well-known
+  - vendor-detect
+  types:
+  - Security
+  - Newsroom
+  - Website
+  - Support
+  - TermsOfService
+  - PrivacyPolicy
+  serves:
+  - docs
+  - cdn
+  - hosting
+  vendor: cloudflare
+  registrable_domain: aible.com
+  role: website
+  relation: own
+- host: www.iamaible.com
+  found_by:
+  - pointer
+  - probed
+  - contract-discovery
+  - well-known
+  types:
+  - Login
+  serves: []
+  registrable_domain: iamaible.com
+  role: identity
+  relation: other-domain

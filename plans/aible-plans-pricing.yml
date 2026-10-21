@@ -32,8 +32,8 @@ plans:
   included_quota: 300 Flex Credits
   overage: null
   limits:
-    credit_expiry: 12 months from date of purchase
-    refunds: none
+  - {name: credit_expiry, limit_text: 12 months from date of purchase}
+  - {name: refunds, limit_text: none}
   source: https://aws.amazon.com/marketplace/pp/prodview-77t5fm3cysegw
 - name: Flex Credits-Small
   price: 7837.50
@@ -43,8 +43,8 @@ plans:
   included_quota: 1000 Flex Credits
   overage: null
   limits:
-    credit_expiry: 12 months from date of purchase
-    refunds: none
+  - {name: credit_expiry, limit_text: 12 months from date of purchase}
+  - {name: refunds, limit_text: none}
   source: https://aws.amazon.com/marketplace/pp/prodview-77t5fm3cysegw
 - name: Flex Credits-Medium
   price: 21441.67
@@ -54,8 +54,8 @@ plans:
   included_quota: 3000 Flex Credits
   overage: null
   limits:
-    credit_expiry: 12 months from date of purchase
-    refunds: none
+  - {name: credit_expiry, limit_text: 12 months from date of purchase}
+  - {name: refunds, limit_text: none}
   source: https://aws.amazon.com/marketplace/pp/prodview-77t5fm3cysegw
 - name: Flex Credits-Large
   price: 42075.00
@@ -65,8 +65,8 @@ plans:
   included_quota: 6000 Flex Credits
   overage: null
   limits:
-    credit_expiry: 12 months from date of purchase
-    refunds: none
+  - {name: credit_expiry, limit_text: 12 months from date of purchase}
+  - {name: refunds, limit_text: none}
   source: https://aws.amazon.com/marketplace/pp/prodview-77t5fm3cysegw
 notes:
 - >-
