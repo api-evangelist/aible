@@ -64,22 +64,102 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Aible is an enterprise AI company founded in 2018 and headquartered in Pleasanton, California. It
-lets business users build and run AI agents, AutoML models and generative-AI analytics against data
-that stays inside the customer's own AWS, Azure, GCP or on-premise account.
+Aible is an enterprise AI company founded in 2018 and headquartered in Pleasanton, California, that lets business users build and run AI agents, AutoML models and generative-AI analytics against data that stays inside the customer's own AWS, Azure, GCP or on-premise account. The platform is organized around projects, segments, scenarios, training data, jobs, models, deployments and content-generation collections, and is operated through a public REST API served at api.iamaible.com. That API server publishes its own route index — 394 routes across 29 modules at /v1, protected by bearer user, tenant and STS tokens — but Aible ships no OpenAPI, AsyncAPI, MCP server, agent card, SDK or public developer portal. Commercial access is sold as prepaid Flex Credits through the AWS and Google Cloud marketplaces.
 
-Aible operates the platform through a public REST API at `https://api.iamaible.com`. That API server
-publishes its own route index at its root — 394 routes across 29 modules under `/v1`, each labelled
-with its HTTP methods, return type and required token class — and that human-readable page is the
-whole of Aible's published contract. There is no OpenAPI, AsyncAPI, GraphQL SDL, gRPC or WSDL
-definition, no MCP server, no A2A agent card, no SDK in any language, no CLI, no public GitHub
-organization, no Postman collection, no `/.well-known` document on any host, no status page and no
-published rate limits. Commercial access is sold as prepaid Flex Credits through the AWS and Google
-Cloud marketplaces; `aible.com/pricing` returns 404.
+**Areas:** Artificial Intelligence · Machine Learning · AutoML · Analytics · Data Science · AI Agents · Generative AI · Enterprise Software · Cloud · Company
 
-The artifacts in this repository are derived from that published route index and from live probes of
-the API host, each recording the URL fetched and the HTTP status it returned.
+## Aible on APIs.io
 
-- Website: https://www.aible.com/
-- API reference: https://api.iamaible.com/
-- Sign in: https://www.iamaible.com/login
+Everything profiled for Aible is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/aible/](https://apis.io/providers/aible/)** — or go straight to one of the APIs or properties below.
+
+### APIs (1)
+
+- [Aible API](https://apis.io/apis/aible/aible-api/) — The Aible API server (self-reported version 2.0.0) is the control plane behind the Aible platform. Its published route index lists 394 routes under the /v1…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Aible Authentication](https://apis.io/security/aible/aible-authentication/)
+- [Aible Domain Security](https://apis.io/security/aible/aible-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Aible Plans Pricing](https://apis.io/plans/aible/aible-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Aible Rate Limits](https://apis.io/rate-limits/aible/aible-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.aible.com/)
+- [API reference](https://api.iamaible.com/)
+- [Pricing](https://aws.amazon.com/marketplace/pp/prodview-77t5fm3cysegw)
+- [Support](https://www.aible.com/partner_support)
+- [Security](https://www.aible.com/security/)
+- [Terms of service](https://www.aible.com/aible-terms-of-use)
+- [Privacy policy](https://www.aible.com/privacy-policy)
+
+## API Evangelist rating
+
+**Kin Score 31.2** — thin · rubric 0.24.0 · scored 2026-10-20
+
+| Facet | Score |
+|---|---|
+| Discoverability | 67.9 |
+| Contract quality | 0.0 |
+| Contract governance | 4.5 |
+| Operational transparency | 34.2 |
+| Developer ergonomics | 23.8 |
+| Access clarity | 69.7 |
+
+**Agent readiness 5.0** — human-only
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 22.7** — AI & Biometrics
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/aible/](https://apis.io/providers/aible/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Aible: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/aible/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
